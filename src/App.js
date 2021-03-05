@@ -1,7 +1,6 @@
 import "./App.css";
 import "firebase/firestore";
 import { FirebaseAppProvider } from "reactfire";
-import { firebaseConfig } from "./config";
 import FirestoreDemo from "./components/FirestoreDemo";
 import "./App.css";
 import React from "react";
@@ -16,6 +15,7 @@ import RetailerHome from "./components/retailerHome";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
+import { firebaseConfig } from "./config/firebase-config";
 
 const engine = new Styletron();
 
