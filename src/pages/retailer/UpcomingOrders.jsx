@@ -8,7 +8,6 @@ import { Block } from "baseui/block";
 import { useFirestore } from "reactfire";
 import { Spinner } from "baseui/spinner";
 
-
 const statuses = ["", "pending", "unfulfilled", "fulfilled"];
 
 export const UpcomingOrders = () => {

@@ -13,21 +13,25 @@ function getDataMappedToStatus(status) {
   switch (status) {
     case "pending":
       return { bottomBtnLabel: "Confirm Order" };
-    case "unfulfilled":
+    case "confirmed":
       return { bottomBtnLabel: "Preprare Order Now" };
+    case "unfulfilled":
+      return { bottomBtnLabel: "Ready for Pickup" };
     case "ready_for_pickup":
       return { bottomBtnLabel: "Scan Pick Up Code" };
     case "fulfilled":
       return { bottomBtnLabel: "Back to Orders" };
     default:
-      return { bottomBtnLabel: "Confirm Order" };
+      return { bottomBtnLabel: "Back to Orders" };
   }
 }
+
 export const ProcessOrder = () => {
   const { orderId } = useParams();
   const [isLoading, setLoading] = useState(true);
   const [isStatusChangeLoading, setStatusChangeLoading] = useState(false);
   const [order, setOrder] = useState({});
+  const [areAllItemsChecked, setAllItemsChecked] = useState(false);
   const firestore = useFirestore();
   const [css] = useStyletron();
   const history = useHistory();
@@ -57,6 +61,10 @@ export const ProcessOrder = () => {
   const handleBottomBtnClicked = () => {
     switch (order.status.toLowerCase()) {
       case "pending": {
+        updateOrderStatus("confirmed");
+        break;
+      }
+      case "confirmed": {
         updateOrderStatus("unfulfilled");
         break;
       }
@@ -85,6 +93,9 @@ export const ProcessOrder = () => {
       bottomButtonLabel={bottomBtnLabel}
       isBottomButtonLoading={isStatusChangeLoading}
       onBottomBtnClicked={handleBottomBtnClicked}
+      isBottomButtonDisabled={
+        order.status === "unfulfilled" && !areAllItemsChecked
+      }
     >
       <Block>
         {isLoading ? (
@@ -144,7 +155,11 @@ export const ProcessOrder = () => {
                 </ParagraphSmall>
               </Block>
             </Block>
-            <ItemsOrdered orderId={order.id} />
+            <ItemsOrdered
+              orderId={order.id}
+              enableCheckbox={order.status === "unfulfilled"}
+              onCheckChanged={(allChecked) => setAllItemsChecked(allChecked)}
+            />
           </Block>
         )}
       </Block>
