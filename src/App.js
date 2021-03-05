@@ -9,6 +9,7 @@ import {
   Switch,
   Route,
   NavLink,
+  useHistory,
 } from "react-router-dom";
 import CustomerHome from "./components/customerHome";
 import Progress from "./components/Progress";
@@ -22,11 +23,35 @@ import { ComponentShowcase } from "./pages/ComponentShowcase";
 import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
+import ChatDrawer from "./components/ChatDrawer";
 import MyCart from "./components/MyCart/myCart";
 import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
 import { ProcessOrder } from "./pages/retailer/ProcessOrder";
+import { Button } from "baseui/button";
+import { Block } from "baseui/block";
 
 const engine = new Styletron();
+
+const Home = () => {
+  const history = useHistory();
+
+  return (
+    <Block
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      padding="16px"
+    >
+      <Button
+        $style={{ marginBottom: "24px" }}
+        onClick={() => history.push("/customer")}
+      >
+        Customer
+      </Button>
+      <Button onClick={() => history.push("/retailer")}>Retailer</Button>
+    </Block>
+  );
+};
 
 function App() {
   return (
@@ -47,11 +72,12 @@ function App() {
                 <NavLink to="/retailer/upcoming-orders">
                   Retailer Upcoming Orders
                 </NavLink>{" "}
-                | <NavLink to="/order">OrderConfirmation</NavLink> | |{" "}
+                | <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
+                <NavLink to="/chat">ChatDrawer</NavLink> |{" "}
                 <NavLink to="/retailer/process-order/demo_order">
                   Process Order
                 </NavLink>{" "}
-                |{" "}
+                <Home />
               </Route>
               <Route path="/customer/mycart">
                 <MyCart />
@@ -88,6 +114,9 @@ function App() {
               </Route>
               <Route path="/order">
                 <OrderConfirmation />
+              </Route>
+              <Route path="/chat">
+                <ChatDrawer />
               </Route>
             </Switch>
           </Router>

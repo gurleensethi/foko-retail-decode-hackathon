@@ -1,52 +1,55 @@
-import React, { useState, useEffect } from "react";
-import { Block } from "baseui/block";
-import { ProgressSteps, Step } from "baseui/progress-steps";
-import { Button } from "baseui/button";
-import { PageLayout } from "./page-layout/PageLayout";
-import ChevronRight from "baseui/icon/chevron-right";
-import { ShoppingCart, Truck } from "react-feather";
-import { StatefulMenu } from "baseui/menu";
-import { ListItemLabel, MenuAdapter, ARTWORK_SIZES } from "baseui/list";
-import { useParams } from "react-router";
-import { useFirestore, useFirestoreDocData } from "reactfire";
-import { Spinner } from "baseui/spinner";
+import React, { useState, useEffect } from "react"
+import { Block } from "baseui/block"
+import { ProgressSteps, Step } from "baseui/progress-steps"
+import { Button, SIZE, SHAPE } from "baseui/button"
+import { PageLayout } from "./page-layout/PageLayout"
+import ChevronRight from "baseui/icon/chevron-right"
+import { ShoppingCart, Truck } from "react-feather"
+import { StatefulMenu } from "baseui/menu"
+import { ListItemLabel, MenuAdapter, ARTWORK_SIZES } from "baseui/list"
+import { useParams } from "react-router"
+import { useFirestore, useFirestoreDocData } from "reactfire"
+import { Spinner } from "baseui/spinner"
+import { MessageSquare } from "react-feather"
+import ChatDrawer from "./ChatDrawer"
 
 const Progress = () => {
-  const [current, setCurrent] = useState(0);
-  const { orderId } = useParams();
+  const [current, setCurrent] = useState(0)
+  const [isChatOpen, setIsChatOpen] = useState(false)
+  const { orderId } = useParams()
 
-  const orderRef = useFirestore().collection("orders").doc(orderId);
-  const { data: order, status } = useFirestoreDocData(orderRef);
+  const orderRef = useFirestore().collection("orders").doc(orderId)
+  const { data: order, status } = useFirestoreDocData(orderRef)
   useEffect(() => {
     if (order?.status) {
       switch (order?.status.toLowerCase()) {
         case "pending": {
-          setCurrent(0);
-          break;
+          setCurrent(0)
+          break
         }
         case "confirmed": {
-          setCurrent(1);
-          break;
+          setCurrent(1)
+          break
         }
         case "unfulfilled": {
-          setCurrent(2);
-          break;
+          setCurrent(2)
+          break
         }
         case "ready_for_pickup": {
-          setCurrent(3);
-          break;
+          setCurrent(3)
+          break
         }
         case "fulfilled": {
-          alert("Order is complete");
-          break;
+          alert("Order is complete")
+          break
         }
         default:
-          alert("Unrecoganized order status", order?.status);
+          alert("Unrecoganized order status", order?.status)
       }
     }
-  }, [order]);
+  }, [order])
 
-  if (status === "loading") return <Spinner />;
+  if (status === "loading") return <Spinner />
 
   const ITEMS = Array.of(
     {
@@ -59,19 +62,38 @@ const Progress = () => {
       subtitle: order?.instructions || "Honda Car, Blue",
       icon: Truck,
     }
-  );
+  )
 
   return (
     <PageLayout
       title="Order Status"
       bottomButtonLabel="I'm here!"
       onBottomBtnClicked={() => orderRef.update({ hasCustomerArrived: true })}
-      bottom={
-        current !== 3 &&
-        (() => {
-          return <></>;
-        })
-      }
+      bottom={() => {
+        return (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+            }}
+          >
+            {current === 3 ? (
+              <Button style={{ flexGrow: 1, marginRight: 26 }}>
+                I'm Here!
+              </Button>
+            ) : (
+              <div style={{ flexGrow: 1 }}> </div>
+            )}
+            <Button
+              size={SIZE.large}
+              shape={SHAPE.circle}
+              onClick={() => setIsChatOpen(true)}
+            >
+              <MessageSquare />
+            </Button>
+          </div>
+        )
+      }}
     >
       <StatefulMenu
         items={ITEMS}
@@ -138,8 +160,9 @@ const Progress = () => {
           </Step>
         </ProgressSteps>
       </Block>
+      <ChatDrawer isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
     </PageLayout>
-  );
-};
+  )
+}
 
-export default Progress;
+export default Progress
