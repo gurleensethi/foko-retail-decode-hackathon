@@ -10,6 +10,8 @@ export const PageLayout = ({
   onBottomBtnClicked,
   bottomButtonLabel,
   bottom,
+  backButtonVisible = true,
+  bottomVisible = true,
 }) => {
   const [css] = useStyletron();
 
@@ -29,9 +31,12 @@ export const PageLayout = ({
           padding: "8px",
         })}
       >
-        <ArrowLeft size={32} />
+        {backButtonVisible && <ArrowLeft size={32} />}
         <div className={css({ flex: 1, textAlign: "center" })}>
-          <HeadingSmall margin="0" marginRight="32px">
+          <HeadingSmall
+            margin="0"
+            marginRight={backButtonVisible ? "32px" : "0px"}
+          >
             {title || "No Title Provided"}
           </HeadingSmall>
         </div>
@@ -39,24 +44,26 @@ export const PageLayout = ({
       <div className={css({ flex: 1, overflow: "scroll", padding: "16px" })}>
         {children}
       </div>
-      <div
-        className={css({
-          padding: "16px",
-          display: "flex",
-          justifyContent: "center",
-        })}
-      >
-        {typeof bottom === "function" ? (
-          bottom()
-        ) : (
-          <Button
-            onClick={onBottomBtnClicked}
-            className={css({ width: "100%" })}
-          >
-            {bottomButtonLabel || "No Label Provided"}
-          </Button>
-        )}
-      </div>
+      {bottomVisible && (
+        <div
+          className={css({
+            padding: "16px",
+            display: "flex",
+            justifyContent: "center",
+          })}
+        >
+          {typeof bottom === "function" ? (
+            bottom()
+          ) : (
+            <Button
+              onClick={onBottomBtnClicked}
+              className={css({ width: "100%" })}
+            >
+              {bottomButtonLabel || "No Label Provided"}
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
