@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import CustomerHome from "./components/customerHome";
 import RetailerHome from "./components/retailerHome";
+import Progress from "./components/Progress";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
@@ -38,6 +39,9 @@ function App() {
               </Route>
               <Route path="/firestore">
                 <FirestoreDemo />
+              </Route>
+              <Route path="/progress">
+                <Progress />
               </Route>
             </Switch>
           </Router>
