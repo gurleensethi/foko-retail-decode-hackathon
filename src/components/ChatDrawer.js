@@ -7,7 +7,6 @@ import {
 import { PageLayout } from "../components/page-layout/PageLayout";
 import { Input } from "baseui/input";
 import { Button } from "baseui/button";
-import { useLocation } from "react-router-dom";
 import { Avatar } from "baseui/avatar";
 import { Drawer, SIZE } from "baseui/drawer";
 import { ArrowLeft } from "baseui/icon";
@@ -55,11 +54,15 @@ const Message = ({ message, isMine = false }) => {
   );
 };
 
-const ChatDrawer = ({ isOpen = true, setIsOpen, orderId }) => {
+const ChatDrawer = ({
+  isOpen = true,
+  setIsOpen,
+  orderId,
+  isRetailer = false,
+}) => {
   const [formValue, setFormValue] = useState();
 
   const bottomRef = useRef();
-  const isRetailer = useQuery().get("isRetailer");
 
   const fieldValue = useFirestore.FieldValue;
   const orderRef = useFirestore().doc(
@@ -162,9 +165,5 @@ const ChatDrawer = ({ isOpen = true, setIsOpen, orderId }) => {
     </Drawer>
   );
 };
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 export default ChatDrawer;
