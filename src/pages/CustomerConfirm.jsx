@@ -3,7 +3,7 @@ import { Block } from "baseui/block";
 import { Spinner } from "baseui/spinner";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useFirestore } from "reactfire";
 import { ItemsOrdered } from "../components/ItemsOrdered";
 import { PageLayout } from "../components/page-layout/PageLayout";
@@ -36,6 +36,7 @@ export const CustomerConfirm = () => {
   const [order, setOrder] = useState({});
   const firestore = useFirestore();
   const [css] = useStyletron();
+  const history = useHistory();
 
   useEffect(() => {
     const ordersRef = firestore.collection("orders").doc(orderId);
@@ -48,10 +49,12 @@ export const CustomerConfirm = () => {
     return () => disconnect();
   }, [firestore, orderId]);
 
-  console.log(order);
-
   return (
-    <PageLayout title="Order Completed" bottomButtonLabel="Rate Your Order">
+    <PageLayout
+      title="Order Completed"
+      bottomButtonLabel="Rate Your Order"
+      onBottomBtnClicked={() => history.push("/")}
+    >
       <Block
         display="flex"
         justifyContent="center"

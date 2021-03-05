@@ -38,7 +38,15 @@ export const PageLayout = ({
         })}
       >
         {backButtonVisible && (
-          <ArrowLeft onClick={() => history.goBack()} size={32} />
+          <ArrowLeft
+            onClick={() => {
+              if (onBottomBtnClicked) {
+                return onBottomBtnClicked();
+              }
+              history.goBack();
+            }}
+            size={32}
+          />
         )}
         {backButtonEnhancement &&
           typeof backButtonEnhancement == "function" &&

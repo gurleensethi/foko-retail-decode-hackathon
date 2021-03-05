@@ -11,7 +11,6 @@ import {
   NavLink,
   useHistory,
 } from "react-router-dom";
-import CustomerHome from "./components/customerHome";
 import Progress from "./components/Progress";
 import Checkout from "./components/Checkout";
 import ConfirmationLoading from "./components/ConfirmationLoading";
