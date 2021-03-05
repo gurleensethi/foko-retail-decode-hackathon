@@ -13,6 +13,7 @@ import {
 import CustomerHome from "./components/customerHome";
 import RetailerHome from "./components/retailerHome";
 import Progress from "./components/Progress";
+import Checkout from "./components/Checkout";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
@@ -33,6 +34,7 @@ function App() {
                 <NavLink to="retailer">Retailer</NavLink> |{" "}
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
+                <NavLink to="/checkout">Checkout</NavLink> |{" "}
               </Route>
               <Route path="/customer">
                 <CustomerHome />
@@ -45,6 +47,9 @@ function App() {
               </Route>
               <Route path="/progress">
                 <Progress />
+              </Route>
+              <Route path="/checkout">
+                <Checkout />
               </Route>
               <Route path="/component-showcase">
                 <ComponentShowcase />
