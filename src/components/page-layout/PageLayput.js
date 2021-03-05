@@ -49,7 +49,10 @@ export const PageLayout = ({
         {typeof bottom === "function" ? (
           bottom()
         ) : (
-          <Button onClick={onBottomBtnClicked}>
+          <Button
+            onClick={onBottomBtnClicked}
+            className={css({ width: "100%" })}
+          >
             {bottomButtonLabel || "No Label Provided"}
           </Button>
         )}

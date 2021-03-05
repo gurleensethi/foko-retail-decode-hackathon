@@ -7,7 +7,11 @@ const CustomerHome = () => {
   const [css] = useStyletron();
 
   return (
-    <PageLayout title="Customer">
+    <PageLayout
+      title="Customer"
+      bottomButtonLabel="Click Me!"
+      onBottomBtnClicked={() => alert("Bottom Clicked")}
+    >
       <div>
         <h2>This is the homepage for customers.</h2>
         <Button className={css({ margin: "20px" })}>
