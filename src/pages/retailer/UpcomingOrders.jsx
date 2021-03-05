@@ -4,47 +4,53 @@ import { Tabs, Tab } from "baseui/tabs-motion";
 import { useState } from "react";
 import { OrderItem } from "../../components/OrderItem";
 import { Block } from "baseui/block";
+import { Link } from "react-router-dom";
 
 const orders = [
   {
     displayId: "Order #1339HD72",
     name: "Casey He",
     email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
+    date: "March 10, 2021 • 11:30 AM",
     isPaid: true,
     status: "pending",
+    id:1
   },
   {
     displayId: "Order #1339HD72",
     name: "Casey He",
     email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
+    date: "March 10, 2021 • 11:30 AM",
     isPaid: false,
     status: "pending",
+    id:2
   },
   {
     displayId: "Order #1339HD72",
     name: "Casey He",
     email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
+    date: "March 10, 2021 • 11:30 AM",
     isPaid: true,
     status: "fulfilled",
+    id:3
   },
   {
     displayId: "Order #1339HD72",
     name: "Casey He",
     email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
+    date: "March 10, 2021 • 11:30 AM",
     isPaid: true,
     status: "unfulfilled",
+    id:4
   },
   {
     displayId: "Order #1339HD72",
     name: "Casey He",
     email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
+    date: "March 10, 2021 • 11:30 AM",
     isPaid: true,
     status: "fulfilled",
+    id:5
   },
 ];
 

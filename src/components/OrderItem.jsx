@@ -2,6 +2,7 @@ import { useStyletron } from "baseui";
 import { Block } from "baseui/block";
 import { ChevronRight } from "baseui/icon";
 import { HeadingXSmall, ParagraphSmall } from "baseui/typography";
+import { Link } from "react-router-dom";
 
 // function getTagColor(status) {
 //   switch (status) {
@@ -79,7 +80,9 @@ export const OrderItem = ({ order }) => {
           paddingTop="6px"
         >
           <img src={getStatusIcon(order.status)} alt="order" height="32px" />
+          <Link to={`/retailer/upcoming-orders/${order.id}`}>
           <ChevronRight size={32} />
+          </Link>
         </Block>
       </Block>
       <Block
