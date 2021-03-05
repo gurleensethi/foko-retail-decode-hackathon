@@ -65,6 +65,7 @@ export const ItemsOrdered = ({
   orderId,
   enableCheckbox = false,
   onCheckChanged,
+  header,
 }) => {
   const [css] = useStyletron();
   const [isLoading, setLoading] = useState(true);
@@ -102,13 +103,15 @@ export const ItemsOrdered = ({
       padding="16px"
       className={css({ border: "1px solid #e1e1e1", borderRadius: "8px" })}
     >
-      <HeadingXSmall
-        margin="0px 0px 0px 0px"
-        className={css({ fontWeight: "bold" })}
-        color="#333333"
-      >
-        Items Ordered
-      </HeadingXSmall>
+      {header || (
+        <HeadingXSmall
+          margin="0px 0px 0px 0px"
+          className={css({ fontWeight: "bold" })}
+          color="#333333"
+        >
+          Items Ordered
+        </HeadingXSmall>
+      )}
       <Block
         margin="8px 0px 16px 0px"
         height="1px"

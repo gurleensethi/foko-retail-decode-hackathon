@@ -29,6 +29,7 @@ import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
 import { ProcessOrder } from "./pages/retailer/ProcessOrder";
 import { Button } from "baseui/button";
 import { Block } from "baseui/block";
+import { CustomerConfirm } from "./pages/CustomerConfirm";
 
 const engine = new Styletron();
 
@@ -64,7 +65,7 @@ function App() {
                 <NavLink to="/customer">Customer</NavLink> |{" "}
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
-                <NavLink to="/mycart">My Cart</NavLink> | {" "}
+                <NavLink to="/mycart">My Cart</NavLink> |{" "}
                 <NavLink to="/checkout">Checkout</NavLink> |{" "}
                 <NavLink to="/confirmation-loading">
                   ConfirmationLoading
@@ -83,8 +84,11 @@ function App() {
               <Route path="/mycart">
                 <MyCart />
               </Route>
+              <Route path="/customer/order-complete/:orderId">
+                <CustomerConfirm />
+              </Route>
               <Route path="/customer">
-                <CustomerHome />
+                <MyCart />
               </Route>
               <Route path="/retailer/upcoming-orders/:id">
                 <UpcomingOrdersDetail />
