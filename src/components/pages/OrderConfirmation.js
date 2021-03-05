@@ -1,26 +1,31 @@
 import React from "react";
 import {
-  Card,
-  StyledBody,
-  StyledAction,
-  StyledThumbnail,
-} from 'baseui/card';
-import {
   AspectRatioBox,
   AspectRatioBoxBody,
 } from 'baseui/aspect-ratio-box';
 import { FlexGrid, FlexGridItem } from 'baseui/flex-grid'; 
 import { Label2, Label3, Label4, Paragraph4 } from 'baseui/typography'
 import { Block } from "baseui/block";
-import { styled } from "baseui";
 import { PageLayout } from "../page-layout/PageLayout";
 
-export default (props) => {
-  const { orders, user } = props; //order: [{item: "product", number: 2}, ]
+const OrderConfirmation = (props) => {
+  const { order, deliveryInfo, paymentInfo } = props; 
+  const _tmpOrder = [
+    { name: "Grape", 
+      count: 1,
+      price: 20,
+      img: ""
+    },
+    { name: "Lemon",
+      count: 1,
+      price: 20,
+      img: ""
+    } 
+  ];
   return (
     <PageLayout title="Order Confirmation" bottomButtonLabel="Place Order" onBottomBtnClicked={()=>console.log("clicked")}>
       <BottomDividerBlock color="#181818">
-        <ProductTable/>
+        <ProductTable order={order || _tmpOrder}/>
       </BottomDividerBlock>
       {/* Order Total Section */}
       <FlexGrid
@@ -38,9 +43,9 @@ export default (props) => {
       </FlexGrid>
 
       {/* Pickup at section */}
-      <SummarySection subtitle="Pickup at" line1="1936 Dundas St West" line2="M72 B3H"/>
-      <SummarySection subtitle="Date & Time" line1="March 10, 2021" line2="11:30 - 12:00 AM" />
-      <SummarySection subtitle="Payment Method" line1="VISA *5000" line2="12/2023" />
+      <SummarySection subtitle="Pickup at" line1={deliveryInfo?.streetName} line2={deliveryInfo?.postalCode}/>
+      <SummarySection subtitle="Date & Time" line1={deliveryInfo?.date || new Date().toDateString()} line2={deliveryInfo?.time || "11:30 - 12:00 AM"} />
+      <SummarySection subtitle="Payment Method" line1={paymentInfo?.card || "VISA *5000"} line2={paymentInfo?.cardExpiryDate || "12/2023"} />
     </PageLayout>
   )
 };
@@ -94,14 +99,16 @@ const narrowItemProps = {
 };
 
 const ProductTable = (props) => {
+  const { order } = props;
   return (
     <FlexGrid padding="scale700" flexDirection="column" flexGridRowGap="scale500">
-      <FlexGridItem>
-        <ProductRow/>
-      </FlexGridItem>
-      <FlexGridItem>
-        <ProductRow/>
-      </FlexGridItem>
+      {order.forEach(row => {
+        return (
+          <FlexGridItem>
+            <ProductRow productInfo={row}/>
+          </FlexGridItem>
+        )
+      })}
     </FlexGrid>
   )
 }
@@ -146,3 +153,5 @@ const SquaredImage = (props) => {
       />
     </AspectRatioBox>
 )}
+
+export default OrderConfirmation;
