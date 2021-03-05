@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductSelectionCard from "./productSelectionCard";
 import { PageLayout } from "../page-layout/PageLayout"
-import { Button, SHAPE, SIZE } from 'baseui/button';
 import { useFirestore } from 'reactfire';
 import { useHistory } from "react-router-dom";
 import { Block } from "baseui/block";
@@ -28,7 +27,6 @@ const MyCart = () => {
         const ordersRef = firestore.collection("items");
         const disconnect = ordersRef.onSnapshot((snapshot) => {
             setItems(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-            setSubtotal(items.map(item => 1));
             setLoading(false);
         });
     
