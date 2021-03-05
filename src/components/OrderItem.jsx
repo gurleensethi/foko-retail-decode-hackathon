@@ -80,9 +80,7 @@ export const OrderItem = ({ order }) => {
           paddingTop="6px"
         >
           <img src={getStatusIcon(order.status)} alt="order" height="32px" />
-          <Link to={`/retailer/upcoming-orders/${order.id}`}>
           <ChevronRight size={32} />
-          </Link>
         </Block>
       </Block>
       <Block
