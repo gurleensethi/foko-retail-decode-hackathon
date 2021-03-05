@@ -35,7 +35,6 @@ export const CustomerConfirm = () => {
   const [isLoading, setLoading] = useState(true);
   const [order, setOrder] = useState({});
   const firestore = useFirestore();
-  const [css] = useStyletron();
   const history = useHistory();
 
   useEffect(() => {

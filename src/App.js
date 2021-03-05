@@ -8,7 +8,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink,
   useHistory,
 } from "react-router-dom";
 import Progress from "./components/Progress";

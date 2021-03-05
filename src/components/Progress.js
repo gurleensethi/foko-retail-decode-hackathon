@@ -16,7 +16,6 @@ import {
 import { Spinner } from "baseui/spinner";
 import { MessageSquare } from "react-feather";
 import ChatDrawer from "./ChatDrawer";
-import { useStyletron } from "baseui";
 
 const Progress = () => {
   const history = useHistory();
@@ -26,7 +25,6 @@ const Progress = () => {
 
   const [order, setOrder] = useState({});
   const firestore = useFirestore();
-  const [css] = useStyletron();
 
   useEffect(() => {
     const ordersRef = firestore.collection("orders").doc(orderId);
@@ -73,7 +71,7 @@ const Progress = () => {
           alert("Unrecoganized order status", order?.status);
       }
     }
-  }, [order]);
+  }, [order, history]);
 
   if (status === "loading")
     return (
