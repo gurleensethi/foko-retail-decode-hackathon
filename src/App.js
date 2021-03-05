@@ -1,3 +1,9 @@
+import logo from "./logo.svg";
+import "./App.css";
+import "firebase/firestore";
+import { FirebaseAppProvider } from "reactfire";
+import { firebaseConfig } from "./config";
+import FirestoreDemo from "./components/FirestoreDemo";
 import "./App.css";
 import React from "react";
 import {
@@ -16,24 +22,29 @@ const engine = new Styletron();
 
 function App() {
   return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <NavLink to="/customer">Customer</NavLink> |{" "}
-              <NavLink to="retailer">Retailer</NavLink>
-            </Route>
-            <Route path="/customer">
-              <CustomerHome />
-            </Route>
-            <Route path="/retailer">
-              <RetailerHome />
-            </Route>
-          </Switch>
-        </Router>
-      </BaseProvider>
-    </StyletronProvider>
+    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+      <StyletronProvider value={engine}>
+        <BaseProvider theme={LightTheme}>
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <NavLink to="/customer">Customer</NavLink> |{" "}
+                <NavLink to="retailer">Retailer</NavLink>
+              </Route>
+              <Route path="/customer">
+                <CustomerHome />
+              </Route>
+              <Route path="/retailer">
+                <RetailerHome />
+              </Route>
+              <Route path="/firestore">
+                <FirestoreDemo />
+              </Route>
+            </Switch>
+          </Router>
+        </BaseProvider>
+      </StyletronProvider>
+    </FirebaseAppProvider>
   );
 }
 

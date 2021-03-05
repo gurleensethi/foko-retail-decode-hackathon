@@ -8,7 +8,7 @@ const CustomerHome = () => {
   return (
     <div>
       <h2>This is the homepage for customers.</h2>
-      <Button className={css({ margin: "10px" })}>
+      <Button className={css({ margin: "20px" })}>
         I am a button from Uber
       </Button>
     </div>
