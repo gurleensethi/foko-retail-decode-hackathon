@@ -59,7 +59,20 @@ const Progress = () => {
     }
   }, [order]);
 
-  if (status === "loading") return <Spinner />;
+  if (status === "loading")
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Spinner color="black" />
+      </div>
+    );
 
   const ITEMS = Array.of(
     {
