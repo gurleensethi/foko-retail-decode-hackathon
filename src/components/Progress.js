@@ -8,7 +8,11 @@ import { ShoppingCart, Truck } from "react-feather";
 import { StatefulMenu } from "baseui/menu";
 import { ListItemLabel, MenuAdapter, ARTWORK_SIZES } from "baseui/list";
 import { useParams } from "react-router";
-import { useFirestore, useFirestoreDocData } from "reactfire";
+import {
+  useFirestore,
+  useFirestoreDocData,
+  useFirestoreCollectionData,
+} from "reactfire";
 import { Spinner } from "baseui/spinner";
 import { MessageSquare } from "react-feather";
 import ChatDrawer from "./ChatDrawer";
@@ -20,6 +24,12 @@ const Progress = () => {
 
   const orderRef = useFirestore().collection("orders").doc(orderId);
   const { data: order, status } = useFirestoreDocData(orderRef);
+  const { data: lastMessage } = useFirestoreCollectionData(
+    orderRef.collection("messages").orderBy("createdAt", "desc").limit(1)
+  );
+
+  console.log({ lastMessage });
+
   useEffect(() => {
     if (order?.status) {
       switch (order?.status.toLowerCase()) {
@@ -92,7 +102,22 @@ const Progress = () => {
               shape={SHAPE.circle}
               onClick={() => setIsChatOpen(true)}
             >
-              <MessageSquare />
+              <MessageSquare style={{ position: "absolute" }} />
+              {lastMessage && lastMessage[0].senderName === "Store" && (
+                <span
+                  style={{
+                    position: "relative",
+                    top: "-20px",
+                    right: "-20px",
+                    padding: "10px 10px",
+                    borderRadius: "50%",
+                    background: "red",
+                    color: "white",
+                  }}
+                >
+                  {" "}
+                </span>
+              )}
             </Button>
           </div>
         );
