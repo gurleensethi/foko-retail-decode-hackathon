@@ -22,7 +22,7 @@ import { ComponentShowcase } from "./pages/ComponentShowcase";
 import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
-import Chat from "./pages/Chat";
+import ChatDrawer from "./components/ChatDrawer";
 import MyCart from "./components/MyCart/myCart";
 import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
 import { ProcessOrder } from "./pages/retailer/ProcessOrder";
@@ -49,7 +49,7 @@ function App() {
                   Retailer Upcoming Orders
                 </NavLink>{" "}
                 | <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
-                <NavLink to="/chat">Chat</NavLink> |{" "}
+                <NavLink to="/chat">ChatDrawer</NavLink> |{" "}
                 <NavLink to="/retailer/process-order/demo_order">
                   Process Order
                 </NavLink>{" "}
@@ -92,7 +92,7 @@ function App() {
                 <OrderConfirmation />
               </Route>
               <Route path="/chat">
-                <Chat />
+                <ChatDrawer />
               </Route>
             </Switch>
           </Router>

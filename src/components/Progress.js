@@ -9,7 +9,7 @@ import { StatefulMenu } from "baseui/menu";
 import { ListItemLabel, MenuAdapter, ARTWORK_SIZES } from "baseui/list";
 import { MessageSquare } from "react-feather";
 import { Drawer } from "baseui/drawer";
-import Chat from "../pages/Chat";
+import ChatDrawer from "./ChatDrawer";
 
 const ITEMS = Array.of(
   {
@@ -133,7 +133,7 @@ const Progress = () => {
           </Button>
         </Block>
       </Block>
-      <Chat isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
+      <ChatDrawer isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
     </PageLayout>
   );
 };
