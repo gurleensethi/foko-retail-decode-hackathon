@@ -17,6 +17,7 @@ import RetailerHome from "./components/retailerHome";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
+import OrderConfirmation from "./components/pages/OrderConfirmation";
 
 const engine = new Styletron();
 
@@ -30,6 +31,7 @@ function App() {
               <Route exact path="/">
                 <NavLink to="/customer">Customer</NavLink> |{" "}
                 <NavLink to="retailer">Retailer</NavLink>
+                <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
               </Route>
               <Route path="/customer">
                 <CustomerHome />
@@ -39,6 +41,9 @@ function App() {
               </Route>
               <Route path="/firestore">
                 <FirestoreDemo />
+              </Route>
+              <Route path="/order">
+                <OrderConfirmation/>
               </Route>
             </Switch>
           </Router>
