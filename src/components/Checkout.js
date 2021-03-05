@@ -155,7 +155,7 @@ const Checkout = () => {
   const [submitted, setSubmitted] = React.useState(false);
 
   const fieldValue = useFirestore.FieldValue;
-  const ordersRef = useFirestore().collection("orders_test");
+  const ordersRef = useFirestore().collection("orders");
 
   const history = useHistory();
 

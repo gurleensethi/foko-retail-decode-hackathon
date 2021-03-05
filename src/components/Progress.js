@@ -15,7 +15,7 @@ const Progress = () => {
   const [current, setCurrent] = useState(0);
   const { orderId } = useParams();
 
-  const orderRef = useFirestore().collection("orders_test").doc(orderId);
+  const orderRef = useFirestore().collection("orders").doc(orderId);
   const { data: order, status } = useFirestoreDocData(orderRef);
   useEffect(() => {
     if (order?.status) {
