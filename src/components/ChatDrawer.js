@@ -129,7 +129,7 @@ const ChatDrawer = ({ isOpen = true, setIsOpen, orderId }) => {
                   message={msg}
                   isMine={
                     (isRetailer && msg.senderName === "Store") ||
-                    (!isRetailer && msg.senderName !=== "Store")
+                    (!isRetailer && msg.senderName !== "Store")
                   }
                 />
               ))}
