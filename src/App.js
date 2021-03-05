@@ -61,7 +61,7 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/">
-                <NavLink to="/customer">Customer</NavLink> |{" "}
+                {/* <NavLink to="/customer">Customer</NavLink> |{" "}
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
                 <NavLink to="/mycart">My Cart</NavLink> |{" "}
@@ -77,7 +77,7 @@ function App() {
                 <NavLink to="/chat">ChatDrawer</NavLink> |{" "}
                 <NavLink to="/retailer/process-order/demo_order">
                   Process Order
-                </NavLink>{" "}
+                </NavLink>{" "} */}
                 <Home />
               </Route>
               <Route path="/mycart">
