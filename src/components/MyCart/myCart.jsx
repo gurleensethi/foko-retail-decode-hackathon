@@ -1,48 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductSelectionCard from "./productSelectionCard";
 import { PageLayout } from "../page-layout/PageLayout"
-import { Button, SHAPE, SIZE } from 'baseui/button';
+import { useFirestore } from 'reactfire';
+import { useHistory } from "react-router-dom";
+import { Block } from "baseui/block";
+import { Spinner } from "baseui/spinner";
 
-const products = {
-    product1: 5,
-    product2: 7,
-    product3: 10
+
+const style = {
+    fontWeight: 'bold',
+    color: '#696969'
 };
 
 const MyCart = () => {
-    const [subtotal, setSubtotal] = useState(Object.fromEntries(Object.entries(products).map(([k,v]) => [k, 1])));
-
-    const onQuantityChange = (name, quantity) => {
-        const temp = {...subtotal};
-        temp[name] = quantity;
+    const onQuantityChange = (index, quantity) => {
+        const temp = [...subtotal];
+        temp[index] = quantity;
         setSubtotal(temp);
     };
     
-    return (
+    const [subtotal, setSubtotal] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    const [items, setItems] = useState([]);
+    const firestore = useFirestore();
+    useEffect(() => {
+        const ordersRef = firestore.collection("items");
+        const disconnect = ordersRef.onSnapshot((snapshot) => {
+            setItems(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+            setLoading(false);
+        });
+    
+        return () => disconnect();
+    }, [firestore]);
+
+    const history = useHistory();
+    
+    return isLoading ? <Block margin="0 auto" display="flex" justifyContent="center">
+                            <Spinner size="32px" color="black" />
+                        </Block> : (
         <PageLayout
             title="My Cart"
-            bottom={() => (
-                <div style={{width: '80%'}}>
-                <Button shape={SHAPE.pill} size={SIZE.large} overrides={{Root:{style:{width: '100%'}}}}>Checkout</Button>
-                </div>
-            )}
-        >
+            bottomButtonLabel="Checkout"
+            onBottomBtnClicked={() => {
+                history.push('/checkout');
+            }}>
             <div>
-                {Object.entries(products).map(([k,v],index) => 
-                    <div>
+                {items.map((item, index) => 
+                    <div style={{
+                        height: 100,
+                    }}>
                         <ProductSelectionCard 
-                            key={index} 
-                            name={k} 
-                            price={v} 
-                            imgUrl='https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_432,c_limit/ce13ce3b-704c-4bc7-bad2-9fc214a8079a/air-max-plus-iii-shoe-br9zBx.jpg'
+                            key={item.id}
+                            index={index}
+                            brand={item.brand}
+                            name={item.name} 
+                            price={item.price} 
+                            itemId={item.itemId}
+                            imgUrl={item.imageUrl}
                             onQuantityChange={onQuantityChange} /> 
                     </div>
                 )}
             </div>
-            <hr />
-            <div style={{ display: 'flex', paddingTop: 5 }}>
-                <span style={{ marginLeft: 20, fontWeight: 'bold' }}>Subtotal</span>
-                <span style={{ marginLeft: 'auto', marginRight: 20, fontWeight: 'bold', width: 70 }}>${Object.entries(subtotal).map(([k,v]) => v * products[k]).reduce((a,b)=>a+b)}</span>
+            <div style={{ display: 'flex', paddingLeft: 20, paddingRight: 20, paddingTop: 10, width: '100%' }}>
+                <span style={{  color: 'gray', fontSize: 12 }}>Total Items:</span>
+                <span style={{ color: 'gray', marginLeft: 'auto', fontSize: 12 }}>{items.length}</span>
+            </div>
+            <div style={{ display: 'flex', paddingLeft: 20, paddingRight: 20, paddingTop: 10, width: '100%' }}>
+                <span style={{ color: 'gray', fontWeight: 'bold', fontSize: 12 }}>Subtotal:</span>
+                <span style={{ color: 'gray', marginLeft: 'auto', fontWeight: 'bold', fontSize: 12 }}>${items.map(item => item.price).reduce((a,b)=>a+b,0)}</span>
+            </div>
+
+            <div style={{width: '100%', padding: 20, boxShadow: "0.5px -3px 1px -1px #9E9E9E", marginTop: '100%'}}>
+                <div style={{display: 'flex', height: 40}}>
+                <span style={style}>Subtotal:</span>
+                <span style={{marginLeft: 'auto', ...style}}>${items.map(item => item.price).reduce((a,b)=>a+b,0)}</span>
+                </div>
             </div>
         </PageLayout> 
     );

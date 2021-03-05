@@ -64,6 +64,7 @@ function App() {
                 <NavLink to="/customer">Customer</NavLink> |{" "}
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
+                <NavLink to="/mycart">My Cart</NavLink> | {" "}
                 <NavLink to="/checkout">Checkout</NavLink> |{" "}
                 <NavLink to="/confirmation-loading">
                   ConfirmationLoading
@@ -79,7 +80,7 @@ function App() {
                 </NavLink>{" "}
                 <Home />
               </Route>
-              <Route path="/customer/mycart">
+              <Route path="/mycart">
                 <MyCart />
               </Route>
               <Route path="/customer">
