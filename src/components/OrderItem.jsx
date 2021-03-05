@@ -5,7 +5,6 @@ import { HeadingXSmall, ParagraphSmall } from "baseui/typography";
 import { format } from "date-fns";
 import { useHistory } from "react-router-dom";
 
-
 // function getTagColor(status) {
 //   switch (status) {
 //     case "pending":
@@ -26,7 +25,7 @@ function getStatusIcon(status) {
     case "fulfilled":
       return "/icons/box.svg";
     default:
-      return "";
+      return "/icons/open-box.svg";
   }
 }
 

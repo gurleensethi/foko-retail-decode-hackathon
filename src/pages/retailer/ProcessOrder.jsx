@@ -1,13 +1,20 @@
 import { Block } from "baseui/block";
 import { Spinner } from "baseui/spinner";
-import { ParagraphMedium, ParagraphSmall } from "baseui/typography";
+import {
+  HeadingSmall,
+  ParagraphMedium,
+  ParagraphSmall,
+} from "baseui/typography";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useFirestore } from "reactfire";
 import { useStyletron } from "styletron-react";
+import { CustomTag } from "../../components/CustomTag";
 import { ItemsOrdered } from "../../components/ItemsOrdered";
 import { PageLayout } from "../../components/page-layout/PageLayout";
+import { Modal } from "baseui/modal";
+import { ScanQRPopup } from "../../components/ScanQRPopup";
 
 function getDataMappedToStatus(status) {
   switch (status) {
@@ -32,6 +39,7 @@ export const ProcessOrder = () => {
   const [isStatusChangeLoading, setStatusChangeLoading] = useState(false);
   const [order, setOrder] = useState({});
   const [areAllItemsChecked, setAllItemsChecked] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const firestore = useFirestore();
   const [css] = useStyletron();
   const history = useHistory();
@@ -49,6 +57,12 @@ export const ProcessOrder = () => {
 
   const updateOrderStatus = (newStatus) => {
     setStatusChangeLoading(true);
+
+    const updateDoc = { status: newStatus };
+    if (newStatus === "completed") {
+      updateDoc.completedAt = new Date();
+    }
+
     firestore
       .collection("orders")
       .doc(orderId)
@@ -73,7 +87,8 @@ export const ProcessOrder = () => {
         break;
       }
       case "ready_for_pickup": {
-        updateOrderStatus("fulfilled");
+        setModalOpen(true);
+        // updateOrderStatus("fulfilled");
         break;
       }
       case "fulfilled": {
@@ -104,62 +119,183 @@ export const ProcessOrder = () => {
           </Block>
         ) : (
           <Block>
-            <Block
-              display="flex"
-              justifyContent="space-between"
-              marginBottom="8px"
-            >
-              <ParagraphMedium margin="0px">Order Status</ParagraphMedium>
-              <ParagraphMedium margin="0px">
-                {order.status.toLowerCase()}
-              </ParagraphMedium>
-            </Block>
-            <Block
-              margin="16px 0px 16px 0px"
-              height="1px"
-              width="100%"
-              backgroundColor="lightgrey"
-            />
-            <Block display="flex" marginBottom="16px">
-              <Block flex="1">
-                <ParagraphSmall
-                  margin="0"
-                  className={css({ fontWeight: "bold", opacity: 0.9 })}
-                  color="#4F4F4F"
+            {order.status !== "fulfilled" && (
+              <>
+                <Block
+                  display="flex"
+                  justifyContent="space-between"
+                  marginBottom="8px"
                 >
-                  Customer Details
-                </ParagraphSmall>
-                <ParagraphSmall margin="0" color="#828282">
-                  {order.customerName}
-                </ParagraphSmall>
-                <ParagraphSmall margin="0px 0px 8px 0px">
-                  {order.email}
-                </ParagraphSmall>
-                <ParagraphSmall
-                  margin="0"
-                  className={css({ fontWeight: "bold", opacity: 0.9 })}
-                  color="#4F4F4F"
+                  <ParagraphMedium margin="0px">Order Status</ParagraphMedium>
+                  <ParagraphMedium margin="0px">
+                    <Block display="inline" marginRight="8px">
+                      <CustomTag
+                        text={"Paid"}
+                        textColor="#2E7551"
+                        backgroundColor="#C8F0C6"
+                      />
+                    </Block>
+                    <CustomTag
+                      text={
+                        order.status[0].toUpperCase() +
+                        order.status.toLowerCase().substr(1)
+                      }
+                      textColor="#654B86"
+                      backgroundColor="#FBF9FF"
+                    />
+                  </ParagraphMedium>
+                </Block>
+                <Block
+                  margin="16px 0px 16px 0px"
+                  height="1px"
+                  width="100%"
+                  backgroundColor="lightgrey"
+                />
+                <Block display="flex" margin="16px">
+                  <Block flex="1">
+                    <Block display="flex" alignItems="flex-start">
+                      <Block marginRight="12px" marginTop="2px">
+                        <img
+                          src="/icons/user.svg"
+                          height="16px"
+                          alt="user icon"
+                        />
+                      </Block>
+                      <Block flex="1">
+                        <ParagraphSmall
+                          margin="0"
+                          className={css({ fontWeight: "600" })}
+                        >
+                          Customer Details
+                        </ParagraphSmall>
+                        <ParagraphSmall margin="0" color="#828282">
+                          {order.customerName}
+                        </ParagraphSmall>
+                        <ParagraphSmall margin="0px 0px 8px 0px">
+                          {order.email}
+                        </ParagraphSmall>
+                      </Block>
+                      <Block
+                        className={css({
+                          border: "1.5px solid #828282",
+                          borderRadius: "6px",
+                          padding: "6px 10px",
+                          color: "#222222",
+                        })}
+                      >
+                        Message
+                      </Block>
+                    </Block>
+                    <Block display="flex" alignItems="flex-start">
+                      <Block marginRight="12px" marginTop="2px">
+                        <img
+                          src="/icons/information.svg"
+                          height="16px"
+                          alt="user icon"
+                        />
+                      </Block>
+                      <Block>
+                        <ParagraphSmall
+                          margin="0"
+                          className={css({ fontWeight: "600" })}
+                        >
+                          Pickup Information
+                        </ParagraphSmall>
+                        <ParagraphSmall
+                          margin="0px 0px 0px 0px"
+                          color="#828282"
+                        >
+                          {format(
+                            new Date(order.pickupAt.seconds * 1000),
+                            "MMMM dd, yyyy • hh:mm a"
+                          )}
+                        </ParagraphSmall>
+                        <ParagraphSmall
+                          margin="0px 0px 0px 0px"
+                          color="#828282"
+                        >
+                          {order.pickupDetails["carColor"]}{" "}
+                          {order.pickupDetails["carType"]} |{" "}
+                          {Object.keys(order.items).length} Items
+                        </ParagraphSmall>
+                      </Block>
+                    </Block>
+                  </Block>
+                </Block>
+                {order.hasCustomerArrived && (
+                  <Block
+                    marginBottom="16px"
+                    className={css({
+                      padding: "16px",
+                      borderLeft: "4px solid rgba(137, 204, 165, 1.0)",
+                      background: "rgba(137, 204, 165, 0.25)",
+                      fontWeight: "600",
+                      fontSize: "14px",
+                    })}
+                  >
+                    {order.customerName} has arrived!
+                  </Block>
+                )}
+                <ItemsOrdered
+                  orderId={order.id}
+                  enableCheckbox={order.status === "unfulfilled"}
+                  onCheckChanged={(allChecked) =>
+                    setAllItemsChecked(allChecked)
+                  }
+                />
+              </>
+            )}
+            {order.status === "fulfilled" && (
+              <Block
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                padding="16px"
+              >
+                <HeadingSmall>Order Completed!</HeadingSmall>
+                <img src="/icons/store_1.svg" height="260px" alt="user icon" />
+                <Block
+                  display="flex"
+                  justifyContent="space-between"
+                  marginBottom="8px"
+                  alignSelf="stretch"
                 >
-                  Pickup Information
-                </ParagraphSmall>
-                <ParagraphSmall margin="0px 0px 0px 0px" color="#828282">
-                  {format(
-                    new Date(order.pickupAt.seconds * 1000),
-                    "MMMM dd, yyyy • hh:mm a"
-                  )}
-                </ParagraphSmall>
-                <ParagraphSmall margin="0px 0px 0px 0px" color="#828282">
-                  {order.pickupDetails["carColor"]}{" "}
-                  {order.pickupDetails["carType"]} |{" "}
-                  {Object.keys(order.items).length} Items
-                </ParagraphSmall>
+                  <div className={css({ fontWeight: "600" })} margin="0px">
+                    Pickup Details
+                  </div>
+                </Block>
+                <Block
+                  margin="16px 0px 16px 0px"
+                  height="1px"
+                  width="100%"
+                  backgroundColor="lightgrey"
+                />
+                <Block flex="1" alignSelf="stretch">
+                  <ParagraphSmall
+                    margin="0"
+                    className={css({ fontWeight: "600" })}
+                  >
+                    Customer Details
+                  </ParagraphSmall>
+                  <ParagraphSmall margin="0" color="#828282">
+                    {order.customerName}
+                  </ParagraphSmall>
+                  <ParagraphSmall margin="0px 0px 8px 0px">
+                    {order.email}
+                  </ParagraphSmall>
+                </Block>
               </Block>
-            </Block>
-            <ItemsOrdered
-              orderId={order.id}
-              enableCheckbox={order.status === "unfulfilled"}
-              onCheckChanged={(allChecked) => setAllItemsChecked(allChecked)}
-            />
+            )}
+            <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+              <ScanQRPopup
+                onClose={() => {
+                  setModalOpen(false);
+                  updateOrderStatus("fulfilled");
+                }}
+                customerName={order.customerName}
+              />
+            </Modal>
           </Block>
         )}
       </Block>

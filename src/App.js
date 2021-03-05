@@ -9,6 +9,7 @@ import {
   Switch,
   Route,
   NavLink,
+  useHistory,
 } from "react-router-dom";
 import CustomerHome from "./components/customerHome";
 import Progress from "./components/Progress";
@@ -26,8 +27,31 @@ import ChatDrawer from "./components/ChatDrawer";
 import MyCart from "./components/MyCart/myCart";
 import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
 import { ProcessOrder } from "./pages/retailer/ProcessOrder";
+import { Button } from "baseui/button";
+import { Block } from "baseui/block";
 
 const engine = new Styletron();
+
+const Home = () => {
+  const history = useHistory();
+
+  return (
+    <Block
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      padding="16px"
+    >
+      <Button
+        $style={{ marginBottom: "24px" }}
+        onClick={() => history.push("/customer")}
+      >
+        Customer
+      </Button>
+      <Button onClick={() => history.push("/retailer")}>Retailer</Button>
+    </Block>
+  );
+};
 
 function App() {
   return (
@@ -53,7 +77,7 @@ function App() {
                 <NavLink to="/retailer/process-order/demo_order">
                   Process Order
                 </NavLink>{" "}
-                |{" "}
+                <Home />
               </Route>
               <Route path="/customer/mycart">
                 <MyCart />
