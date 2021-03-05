@@ -17,6 +17,7 @@ import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
 import { firebaseConfig } from "./config/firebase-config";
+import { ComponentShowcase } from "./pages/ComponentShowcase";
 
 const engine = new Styletron();
 
@@ -29,8 +30,9 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <NavLink to="/customer">Customer</NavLink> |{" "}
-                <NavLink to="retailer">Retailer</NavLink>
-                <NavLink to="/progress">Progress</NavLink>
+                <NavLink to="retailer">Retailer</NavLink> |{" "}
+                <NavLink to="/progress">Progress</NavLink> |{" "}
+                <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
               </Route>
               <Route path="/customer">
                 <CustomerHome />
@@ -43,6 +45,9 @@ function App() {
               </Route>
               <Route path="/progress">
                 <Progress />
+              </Route>
+              <Route path="/component-showcase">
+                <ComponentShowcase />
               </Route>
             </Switch>
           </Router>
