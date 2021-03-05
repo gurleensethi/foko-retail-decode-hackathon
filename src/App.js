@@ -1,8 +1,6 @@
-import logo from "./logo.svg";
 import "./App.css";
 import "firebase/firestore";
 import { FirebaseAppProvider } from "reactfire";
-import { firebaseConfig } from "./config";
 import FirestoreDemo from "./components/FirestoreDemo";
 import "./App.css";
 import React from "react";
@@ -14,10 +12,14 @@ import {
 } from "react-router-dom";
 import CustomerHome from "./components/customerHome";
 import RetailerHome from "./components/retailerHome";
+import Progress from "./components/Progress";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
+import { firebaseConfig } from "./config/firebase-config";
+import { ComponentShowcase } from "./pages/ComponentShowcase";
 import OrderConfirmation from "./components/pages/OrderConfirmation";
+import { PageLayout } from "./components/page-layout/PageLayout";
 
 const engine = new Styletron();
 
@@ -30,7 +32,9 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <NavLink to="/customer">Customer</NavLink> |{" "}
-                <NavLink to="retailer">Retailer</NavLink>
+                <NavLink to="retailer">Retailer</NavLink> |{" "}
+                <NavLink to="/progress">Progress</NavLink> |{" "}
+                <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
                 <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
               </Route>
               <Route path="/customer">
@@ -41,6 +45,12 @@ function App() {
               </Route>
               <Route path="/firestore">
                 <FirestoreDemo />
+              </Route>
+              <Route path="/progress">
+                <Progress />
+              </Route>
+              <Route path="/component-showcase">
+                <ComponentShowcase />
               </Route>
               <Route path="/order">
                 <OrderConfirmation/>

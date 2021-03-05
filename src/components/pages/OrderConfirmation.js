@@ -13,11 +13,12 @@ import { FlexGrid, FlexGridItem } from 'baseui/flex-grid';
 import { Label2, Label3, Label4, Paragraph4 } from 'baseui/typography'
 import { Block } from "baseui/block";
 import { styled } from "baseui";
+import { PageLayout } from "../page-layout/PageLayout";
 
 export default (props) => {
   const { orders, user } = props; //order: [{item: "product", number: 2}, ]
   return (
-    <>
+    <PageLayout title="Order Confirmation" bottomButtonLabel="Place Order" onBottomBtnClicked={()=>console.log("clicked")}>
       <BottomDividerBlock color="#181818">
         <ProductTable/>
       </BottomDividerBlock>
@@ -32,7 +33,7 @@ export default (props) => {
           <Label3>Order Total</Label3>
         </FlexGridItem>
         <FlexGridItem {...narrowItemProps}>
-          <Label2>${props.totalPrice || 40}</Label2>
+          <Label2>${Number(props.totalPrice || 40).toFixed(2)}</Label2>
         </FlexGridItem>
       </FlexGrid>
 
@@ -40,14 +41,14 @@ export default (props) => {
       <SummarySection subtitle="Pickup at" line1="1936 Dundas St West" line2="M72 B3H"/>
       <SummarySection subtitle="Date & Time" line1="March 10, 2021" line2="11:30 - 12:00 AM" />
       <SummarySection subtitle="Payment Method" line1="VISA *5000" line2="12/2023" />
-    </>
+    </PageLayout>
   )
 };
 
 const SummarySection = (props) => {
   const { subtitle, line1, line2 } = props;
   return (
-    <BottomDividerBlock color="#181818">
+    <BottomDividerBlock color="#CBCBCB">
       <FlexGrid 
         flexDirection="column"
         padding="scale500">
@@ -74,7 +75,7 @@ const BottomDividerBlock = (props) => {
 }
 
 const itemProps = {
-  backgroundColor: 'mono300', //TODO: should delete it
+  // backgroundColor: 'mono300',
   height: 'scale2000',
   display: 'flex',
   alignItems: 'center',
@@ -118,17 +119,8 @@ const ProductRow = (props) => {
     <FlexGrid
       flexGridColumnCount={3}
       flexGridColumnGap="scale300"
-      // flexGridRowGap="scale100"
     >
       <FlexGridItem {...narrowItemProps}>
-        {/* <StyledThumbnail
-          overrides={{Root: {style: {width: '328px'}}}}
-          src={productInfo?.img || 'https://source.unsplash.com/user/erondu/300x300'}
-        /> */}
-        {/* <AspectRatioBox/> */}
-        {/* <AspectRatioBox>
-          <AspectRatioBoxBody />
-        </AspectRatioBox> */}
         <SquaredImage src={productInfo?.img || 'https://source.unsplash.com/user/erondu/300x300'}/>
       </FlexGridItem>
       <FlexGridItem {...itemProps} justifyContent="start" >
