@@ -18,6 +18,7 @@ import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
 import { firebaseConfig } from "./config/firebase-config";
 import { ComponentShowcase } from "./pages/ComponentShowcase";
+import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
 
@@ -40,6 +41,7 @@ function App() {
                   Retailer Upcoming Orders
                 </NavLink>{" "}
                 |{" "}
+                <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
               </Route>
               <Route path="/customer">
                 <CustomerHome />
@@ -61,6 +63,9 @@ function App() {
               </Route>
               <Route path="/component-showcase">
                 <ComponentShowcase />
+              </Route>
+              <Route path="/order">
+                <OrderConfirmation/>
               </Route>
             </Switch>
           </Router>
