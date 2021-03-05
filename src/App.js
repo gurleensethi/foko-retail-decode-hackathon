@@ -21,6 +21,7 @@ import { ComponentShowcase } from "./pages/ComponentShowcase";
 import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
+import Chat from "./pages/Chat";
 
 const engine = new Styletron();
 
@@ -40,8 +41,8 @@ function App() {
                 <NavLink to="/retailer/upcoming-orders">
                   Retailer Upcoming Orders
                 </NavLink>{" "}
-                |{" "}
-                <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
+                | <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
+                <NavLink to="/chat">Chat</NavLink> |{" "}
               </Route>
               <Route path="/customer">
                 <CustomerHome />
@@ -65,7 +66,10 @@ function App() {
                 <ComponentShowcase />
               </Route>
               <Route path="/order">
-                <OrderConfirmation/>
+                <OrderConfirmation />
+              </Route>
+              <Route path="/chat">
+                <Chat />
               </Route>
             </Switch>
           </Router>
