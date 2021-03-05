@@ -102,7 +102,7 @@ const ProductTable = (props) => {
   const { order } = props;
   return (
     <FlexGrid padding="scale700" flexDirection="column" flexGridRowGap="scale500">
-      {order.forEach(row => {
+      {order.map(row => {
         return (
           <FlexGridItem>
             <ProductRow productInfo={row}/>
