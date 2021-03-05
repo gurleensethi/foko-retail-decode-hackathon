@@ -1,8 +1,17 @@
+// export const firebaseConfig = {
+//   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+//   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+//   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+//   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+//   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+//   appId: process.env.REACT_APP_FIREBASE_APP_ID,
+// };
+
 export const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "AIzaSyBaS9JIjwmHPJHIHo1pVvgUutoMz_jwnbs",
+  authDomain: "foko-42476.firebaseapp.com",
+  projectId: "foko-42476",
+  storageBucket: "foko-42476.appspot.com",
+  messagingSenderId: "717258313470",
+  appId: "1:717258313470:web:27870ae88b4df6b7fa5faf",
 };

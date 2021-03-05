@@ -1,6 +1,5 @@
 import { useStyletron } from "baseui";
 import { ConfirmationLoading } from "../components/ConfirmationLoading";
-import { ItemsOrdered } from "../components/ItemsOrdered";
 
 export const ComponentShowcase = () => {
   const [css] = useStyletron();
@@ -18,7 +17,6 @@ export const ComponentShowcase = () => {
         This page is for internal use only. A list of all custom components.
       </p>
       <ConfirmationLoading />
-      <ItemsOrdered orderId="demo_order" />
     </div>
   );
 };
