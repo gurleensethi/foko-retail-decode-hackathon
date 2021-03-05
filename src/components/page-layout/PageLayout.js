@@ -3,6 +3,7 @@ import { HeadingSmall } from "baseui/typography";
 import { useStyletron } from "baseui";
 import { ArrowLeft } from "baseui/icon";
 import { Button } from "baseui/button";
+import { useHistory } from "react-router-dom";
 
 export const PageLayout = ({
   children,
@@ -10,9 +11,13 @@ export const PageLayout = ({
   onBottomBtnClicked,
   bottomButtonLabel,
   bottom,
+  bottomEnhancement,
   backButtonVisible = true,
   bottomVisible = true,
+  isBottomButtonLoading = false,
+  isBottomButtonDisabled = false,
 }) => {
+  let history = useHistory();
   const [css] = useStyletron();
 
   return (
@@ -31,7 +36,9 @@ export const PageLayout = ({
           padding: "8px",
         })}
       >
-        {backButtonVisible && <ArrowLeft size={32} />}
+        {backButtonVisible && (
+          <ArrowLeft onClick={() => history.goBack()} size={32} />
+        )}
         <div className={css({ flex: 1, textAlign: "center" })}>
           <HeadingSmall
             margin={`0px ${backButtonVisible ? "32px" : "0px"} 0px 0px`}
@@ -54,12 +61,17 @@ export const PageLayout = ({
           {typeof bottom === "function" ? (
             bottom()
           ) : (
-            <Button
-              onClick={onBottomBtnClicked}
-              className={css({ width: "100%" })}
-            >
-              {bottomButtonLabel || "No Label Provided"}
-            </Button>
+            <>
+              <Button
+                onClick={onBottomBtnClicked}
+                className={css({ width: "100%" })}
+                isLoading={isBottomButtonLoading}
+                disabled={isBottomButtonDisabled}
+              >
+                {bottomButtonLabel || "No Label Provided"}
+              </Button>
+              {bottomEnhancement && bottomEnhancement()}
+            </>
           )}
         </div>
       )}

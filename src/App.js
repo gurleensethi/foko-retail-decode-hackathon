@@ -13,6 +13,7 @@ import {
 import CustomerHome from "./components/customerHome";
 import Progress from "./components/Progress";
 import Checkout from "./components/Checkout";
+import ConfirmationLoading from "./components/ConfirmationLoading";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
@@ -22,6 +23,9 @@ import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
 import Chat from "./pages/Chat";
+import MyCart from "./components/MyCart/myCart";
+import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
+import { ProcessOrder } from "./pages/retailer/ProcessOrder";
 
 const engine = new Styletron();
 
@@ -37,15 +41,31 @@ function App() {
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
                 <NavLink to="/checkout">Checkout</NavLink> |{" "}
-                <NavLink to="retailer">Retailer</NavLink> |{" "}
+                <NavLink to="/confirmation-loading">
+                  ConfirmationLoading
+                </NavLink>{" "}
+                | <NavLink to="retailer">Retailer</NavLink> |{" "}
                 <NavLink to="/retailer/upcoming-orders">
                   Retailer Upcoming Orders
                 </NavLink>{" "}
                 | <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
                 <NavLink to="/chat">Chat</NavLink> |{" "}
+                <NavLink to="/retailer/process-order/demo_order">
+                  Process Order
+                </NavLink>{" "}
+                |{" "}
+              </Route>
+              <Route path="/customer/mycart">
+                <MyCart />
               </Route>
               <Route path="/customer">
                 <CustomerHome />
+              </Route>
+              <Route path="/retailer/upcoming-orders/:id">
+                <UpcomingOrdersDetail />
+              </Route>
+              <Route path="/retailer/process-order/:orderId">
+                <ProcessOrder />
               </Route>
               <Route path="/retailer/upcoming-orders">
                 <UpcomingOrders />
@@ -61,6 +81,9 @@ function App() {
               </Route>
               <Route path="/checkout">
                 <Checkout />
+              </Route>
+              <Route path="/confirmation-loading">
+                <ConfirmationLoading />
               </Route>
               <Route path="/component-showcase">
                 <ComponentShowcase />
