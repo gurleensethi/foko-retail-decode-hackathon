@@ -1,10 +1,11 @@
 import { useStyletron } from "baseui";
 import { PageLayout } from "../components/page-layout/PageLayout";
-import { useHistory } from "react-router-dom";
+import { useHistory , useParams} from "react-router-dom";
 
 export const ConfirmationLoading = () => {
   const [css] = useStyletron();
   const history = useHistory();
+  const {orderId} = useParams();
 
   return (
     <PageLayout
@@ -12,7 +13,7 @@ export const ConfirmationLoading = () => {
       backButtonVisible={false}
       bottomButtonLabel="Track Order"
       onBottomBtnClicked={() => {
-      history.push("/progress")
+      history.push("/progress/"+orderId)
       }}
     >
     <div

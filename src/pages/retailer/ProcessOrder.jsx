@@ -214,8 +214,7 @@ export const ProcessOrder = () => {
                           margin="0px 0px 0px 0px"
                           color="#828282"
                         >
-                          {order.pickupDetails["carColor"]}{" "}
-                          {order.pickupDetails["carType"]} |{" "}
+                          {order.instructions} | {" "}
                           {Object.keys(order.items).length} Items
                         </ParagraphSmall>
                       </Block>

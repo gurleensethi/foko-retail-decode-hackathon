@@ -100,13 +100,13 @@ function App() {
               <Route path="/firestore">
                 <FirestoreDemo />
               </Route>
-              <Route path="/progress">
+              <Route path="/progress/:orderId">
                 <Progress />
               </Route>
               <Route path="/checkout">
                 <Checkout />
               </Route>
-              <Route path="/confirmation-loading">
+              <Route path="/confirmation-loading/:orderId">
                 <ConfirmationLoading />
               </Route>
               <Route path="/component-showcase">
