@@ -11,13 +11,14 @@ import {
   NavLink,
 } from "react-router-dom";
 import CustomerHome from "./components/customerHome";
-import RetailerHome from "./components/retailerHome";
 import Progress from "./components/Progress";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
 import { firebaseConfig } from "./config/firebase-config";
 import { ComponentShowcase } from "./pages/ComponentShowcase";
+import { ReatilerHome } from "./pages/retailer/RetailerHome";
+import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
 
 const engine = new Styletron();
 
@@ -37,8 +38,11 @@ function App() {
               <Route path="/customer">
                 <CustomerHome />
               </Route>
+              <Route path="/retailer/upcoming-orders">
+                <UpcomingOrders />
+              </Route>
               <Route path="/retailer">
-                <RetailerHome />
+                <ReatilerHome />
               </Route>
               <Route path="/firestore">
                 <FirestoreDemo />

@@ -30,3 +30,9 @@ If you don't want to use a button at the bottom you can provide your own custom 
   </div>
 </PageLayout>
 ```
+
+## Hide the back button
+
+```js
+<PageLayout backButtonVisible={false} title="Curbside"></PageLayout>
+```
