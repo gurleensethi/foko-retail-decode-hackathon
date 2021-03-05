@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Block } from "baseui/block";
 import { ProgressSteps, Step } from "baseui/progress-steps";
 import { Button } from "baseui/button";
@@ -8,29 +8,64 @@ import { ShoppingCart, Truck } from "react-feather";
 import { StatefulMenu } from "baseui/menu";
 import { ListItemLabel, MenuAdapter, ARTWORK_SIZES } from "baseui/list";
 import { useParams } from "react-router";
-
-const ITEMS = Array.of(
-  {
-    title: "My Order",
-    subtitle: "Order Number: #16391A",
-    icon: ShoppingCart,
-  },
-  {
-    title: "Pickup Information",
-    subtitle: "Honda Car, Blue",
-    icon: Truck,
-  }
-);
+import { useFirestore, useFirestoreDocData } from "reactfire";
+import { Spinner } from "baseui/spinner";
 
 const Progress = () => {
   const [current, setCurrent] = useState(0);
   const { orderId } = useParams();
 
+  const orderRef = useFirestore().collection("orders_test").doc(orderId);
+  const { data: order, status } = useFirestoreDocData(orderRef);
+  useEffect(() => {
+    if (order?.status) {
+      switch (order?.status.toLowerCase()) {
+        case "pending": {
+          setCurrent(0);
+          break;
+        }
+        case "confirmed": {
+          setCurrent(1);
+          break;
+        }
+        case "unfulfilled": {
+          setCurrent(2);
+          break;
+        }
+        case "ready_for_pickup": {
+          setCurrent(3);
+          break;
+        }
+        case "fulfilled": {
+          alert("Order is complete");
+          break;
+        }
+        default:
+          alert("Unrecoganized order status", order?.status);
+      }
+    }
+  }, [order]);
+
+  if (status === "loading") return <Spinner />;
+
+  const ITEMS = Array.of(
+    {
+      title: "My Order",
+      subtitle: "Order Number: #16391A",
+      icon: ShoppingCart,
+    },
+    {
+      title: "Pickup Information",
+      subtitle: order?.instructions || "Honda Car, Blue",
+      icon: Truck,
+    }
+  );
+
   return (
     <PageLayout
       title="Order Status"
       bottomButtonLabel="I'm here!"
-      onBottomBtnClicked={() => setCurrent(0)}
+      onBottomBtnClicked={() => orderRef.update({ hasCustomerArrived: true })}
       bottom={
         current !== 3 &&
         (() => {
@@ -102,17 +137,6 @@ const Progress = () => {
             </p>
           </Step>
         </ProgressSteps>
-        <Block>
-          {/* Temp button to step forward. Will remove with firebase integration*/}
-          <Button
-            onClick={() => {
-              setCurrent(current + 1);
-            }}
-            style={{ marginTop: 16 }}
-          >
-            Next
-          </Button>
-        </Block>
       </Block>
     </PageLayout>
   );

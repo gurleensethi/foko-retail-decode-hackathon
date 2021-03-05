@@ -168,13 +168,14 @@ const Checkout = () => {
         console.log({ ITEMS });
         setSubmitted(true);
         const res = await ordersRef.add({
+          status: "pending",
           cutomerName: ITEMS[0].infoLine1,
           customerId: ITEMS[0].infoLine2,
           storeAddress: ITEMS[1].infoLine1,
           storePostal: ITEMS[1].infoLine2,
           paymentMethod: ITEMS[3].infoLine1 + ", " + ITEMS[3].infoLine2,
           promoCode: ITEMS[4].infoLine1,
-          instructions: ITEMS[6].infoLine1,
+          instructions: ITEMS[6].infoLine1 || "Honda Car, Blue",
           placedAt: fieldValue.serverTimestamp(),
           // hardcoded item ids for now
           items: {
