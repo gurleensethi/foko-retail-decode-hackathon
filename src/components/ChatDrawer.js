@@ -78,6 +78,7 @@ const ChatDrawer = ({
     }
   );
 
+  console.log("chat", { orderData });
   useEffect(() => {
     bottomRef?.current?.scrollIntoView();
   }, [messages]);

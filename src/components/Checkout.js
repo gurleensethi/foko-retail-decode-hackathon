@@ -169,7 +169,7 @@ const Checkout = () => {
         setSubmitted(true);
         const res = await ordersRef.add({
           status: "pending",
-          cutomerName: ITEMS[0].infoLine1,
+          customerName: ITEMS[0].infoLine1,
           customerId: ITEMS[0].infoLine2,
           storeAddress: ITEMS[1].infoLine1,
           storePostal: ITEMS[1].infoLine2,
@@ -177,6 +177,7 @@ const Checkout = () => {
           promoCode: ITEMS[4].infoLine1,
           instructions: ITEMS[6].infoLine1 || "Honda Car, Blue",
           placedAt: fieldValue.serverTimestamp(),
+          pickupAt: fieldValue.serverTimestamp(),
           // hardcoded item ids for now
           items: {
             UqLqjoZ82Fa8Ge8QmWeU: 1,
