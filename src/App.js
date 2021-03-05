@@ -11,7 +11,6 @@ import {
   NavLink,
   useHistory,
 } from "react-router-dom";
-import CustomerHome from "./components/customerHome";
 import Progress from "./components/Progress";
 import Checkout from "./components/Checkout";
 import ConfirmationLoading from "./components/ConfirmationLoading";
@@ -29,6 +28,7 @@ import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
 import { ProcessOrder } from "./pages/retailer/ProcessOrder";
 import { Button } from "baseui/button";
 import { Block } from "baseui/block";
+import { CustomerConfirm } from "./pages/CustomerConfirm";
 
 const engine = new Styletron();
 
@@ -61,10 +61,10 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/">
-                <NavLink to="/customer">Customer</NavLink> |{" "}
+                {/* <NavLink to="/customer">Customer</NavLink> |{" "}
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
-                <NavLink to="/mycart">My Cart</NavLink> | {" "}
+                <NavLink to="/mycart">My Cart</NavLink> |{" "}
                 <NavLink to="/checkout">Checkout</NavLink> |{" "}
                 <NavLink to="/confirmation-loading">
                   ConfirmationLoading
@@ -77,14 +77,17 @@ function App() {
                 <NavLink to="/chat">ChatDrawer</NavLink> |{" "}
                 <NavLink to="/retailer/process-order/demo_order">
                   Process Order
-                </NavLink>{" "}
+                </NavLink>{" "} */}
                 <Home />
               </Route>
               <Route path="/mycart">
                 <MyCart />
               </Route>
+              <Route path="/customer/order-complete/:orderId">
+                <CustomerConfirm />
+              </Route>
               <Route path="/customer">
-                <CustomerHome />
+                <MyCart />
               </Route>
               <Route path="/retailer/upcoming-orders/:id">
                 <UpcomingOrdersDetail />

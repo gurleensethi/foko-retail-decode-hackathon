@@ -87,7 +87,7 @@ const ITEMS = Array.of(
   {
     title: "Date & Time",
     infoLine1: "March 10, 2021",
-    infoLine2: "11:30 - 12:00 AM",
+    infoLine2: "5:30 - 6:00 PM",
     icon: Calendar,
   },
   {

@@ -7,7 +7,7 @@ import ChevronRight from "baseui/icon/chevron-right";
 import { ShoppingCart, Truck } from "react-feather";
 import { StatefulMenu } from "baseui/menu";
 import { ListItemLabel, MenuAdapter, ARTWORK_SIZES } from "baseui/list";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import {
   useFirestore,
   useFirestoreDocData,
@@ -16,14 +16,30 @@ import {
 import { Spinner } from "baseui/spinner";
 import { MessageSquare } from "react-feather";
 import ChatDrawer from "./ChatDrawer";
+import { useStyletron } from "baseui";
 
 const Progress = () => {
+  const history = useHistory();
   const [current, setCurrent] = useState(0);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const { orderId } = useParams();
 
+  const [order, setOrder] = useState({});
+  const firestore = useFirestore();
+  const [css] = useStyletron();
+
+  useEffect(() => {
+    const ordersRef = firestore.collection("orders").doc(orderId);
+
+    const disconnect = ordersRef.onSnapshot((snapshot) => {
+      setOrder({ ...snapshot.data(), id: snapshot.id });
+    });
+
+    return () => disconnect();
+  }, [firestore, orderId]);
+
   const orderRef = useFirestore().collection("orders").doc(orderId);
-  const { data: order, status } = useFirestoreDocData(orderRef);
+  const { status } = useFirestoreDocData(orderRef);
   const { data: lastMessage } = useFirestoreCollectionData(
     orderRef.collection("messages").orderBy("createdAt", "desc").limit(1)
   );
@@ -50,7 +66,7 @@ const Progress = () => {
           break;
         }
         case "fulfilled": {
-          alert("Order is complete");
+          history.push(`/customer/order-complete/${order.id}`);
           break;
         }
         default:
@@ -73,19 +89,6 @@ const Progress = () => {
         <Spinner color="black" />
       </div>
     );
-
-  const ITEMS = Array.of(
-    {
-      title: "My Order",
-      subtitle: "Order Number: #16391A",
-      icon: ShoppingCart,
-    },
-    {
-      title: "Pickup Information",
-      subtitle: order?.instructions || "Honda Car, Blue",
-      icon: Truck,
-    }
-  );
 
   return (
     <PageLayout
@@ -139,7 +142,18 @@ const Progress = () => {
       }}
     >
       <StatefulMenu
-        items={ITEMS}
+        items={[
+          {
+            title: "My Order",
+            subtitle: `Order Number: #${(order.id || "16391A").substr(0, 5)}`,
+            icon: ShoppingCart,
+          },
+          {
+            title: "Pickup Information",
+            subtitle: order?.instructions || "Honda Car, Blue",
+            icon: Truck,
+          },
+        ]}
         onItemSelect={() => console.log("select")}
         overrides={{
           List: {
