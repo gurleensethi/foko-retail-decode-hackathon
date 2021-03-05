@@ -1,7 +1,7 @@
 import React from "react";
 import { useStyletron } from "baseui";
 import { Button } from "baseui/button";
-import { PageLayout } from "./page-layout/PageLayput";
+import { PageLayout } from "./page-layout/PageLayout";
 
 const CustomerHome = () => {
   const [css] = useStyletron();

@@ -26,8 +26,7 @@ If you don't want to use a button at the bottom you can provide your own custom 
   )}
 >
   <div>
-    <h2>This is the homepage for customers.</h2>
-    <Button className={css({ margin: "20px" })}>I am a button from Uber</Button>
+    <div>Your content goes here....</div>
   </div>
 </PageLayout>
 ```
