@@ -23,7 +23,7 @@ const MyCart = () => {
             title="My Cart"
             bottom={() => (
                 <div style={{width: '80%'}}>
-                <Button shape={SHAPE.pill} size={SIZE.large} overrides={{Root:{style:{width: '100%'}}}}>Checkout!</Button>
+                <Button shape={SHAPE.pill} size={SIZE.large} overrides={{Root:{style:{width: '100%'}}}}>Checkout</Button>
                 </div>
             )}
         >
