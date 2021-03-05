@@ -3,16 +3,16 @@ import { Block } from "baseui/block";
 import { ChevronRight } from "baseui/icon";
 import { HeadingXSmall, ParagraphSmall } from "baseui/typography";
 
-function getTagColor(status) {
-  switch (status) {
-    case "pending":
-      return "yellow";
-    case "unfulfilled":
-      return "orange";
-    default:
-      return "black";
-  }
-}
+// function getTagColor(status) {
+//   switch (status) {
+//     case "pending":
+//       return "yellow";
+//     case "unfulfilled":
+//       return "orange";
+//     default:
+//       return "black";
+//   }
+// }
 
 function getStatusIcon(status) {
   switch (status) {

@@ -31,9 +31,13 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <NavLink to="/customer">Customer</NavLink> |{" "}
-                <NavLink to="retailer">Retailer</NavLink> |{" "}
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
+                <NavLink to="retailer">Retailer</NavLink> |{" "}
+                <NavLink to="/retailer/upcoming-orders">
+                  Retailer Upcoming Orders
+                </NavLink>{" "}
+                |{" "}
               </Route>
               <Route path="/customer">
                 <CustomerHome />
