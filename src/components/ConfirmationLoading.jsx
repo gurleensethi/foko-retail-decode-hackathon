@@ -1,5 +1,4 @@
 import { useStyletron } from "baseui";
-import { Paragraph1 } from "baseui/typography";
 import { PageLayout } from "../components/page-layout/PageLayout";
 import { useHistory } from "react-router-dom";
 
