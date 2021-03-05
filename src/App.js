@@ -13,7 +13,7 @@ import {
 import CustomerHome from "./components/customerHome";
 import Progress from "./components/Progress";
 import Checkout from "./components/Checkout";
-import ConfirmationLoading  from "./components/ConfirmationLoading";
+import ConfirmationLoading from "./components/ConfirmationLoading";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
@@ -40,8 +40,10 @@ function App() {
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
                 <NavLink to="/checkout">Checkout</NavLink> |{" "}
-                <NavLink to="/confirmation-loading">ConfirmationLoading</NavLink> |{" "}
-                <NavLink to="retailer">Retailer</NavLink> |{" "}
+                <NavLink to="/confirmation-loading">
+                  ConfirmationLoading
+                </NavLink>{" "}
+                | <NavLink to="retailer">Retailer</NavLink> |{" "}
                 <NavLink to="/retailer/upcoming-orders">
                   Retailer Upcoming Orders
                 </NavLink>{" "}
@@ -78,7 +80,7 @@ function App() {
               <Route path="/checkout">
                 <Checkout />
               </Route>
-              <Route path="/confirmation-loading">
+              <Route path="/confirmation-loading/:orderId">
                 <ConfirmationLoading />
               </Route>
               <Route path="/component-showcase">

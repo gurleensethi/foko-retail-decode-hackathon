@@ -152,6 +152,7 @@ const Checkout = () => {
   const [selectedItem, setSelectedItem] = React.useState(false);
   const [input1Value, setInput1Value] = React.useState(false);
   const [input2Value, setInput2Value] = React.useState(false);
+  const [submitted, setSubmitted] = React.useState(false);
 
   const fieldValue = useFirestore.FieldValue;
   const ordersRef = useFirestore().collection("orders_test");
@@ -162,10 +163,11 @@ const Checkout = () => {
     <PageLayout
       title="Checkout"
       bottomButtonLabel="Place Order"
-      onBottomBtnClicked={() => {
-        history.push("/confirmation-loading");
+      isBottomButtonLoading={submitted}
+      onBottomBtnClicked={async () => {
         console.log({ ITEMS });
-        ordersRef.add({
+        setSubmitted(true);
+        const res = await ordersRef.add({
           cutomerName: ITEMS[0].infoLine1,
           customerId: ITEMS[0].infoLine2,
           storeAddress: ITEMS[1].infoLine1,
@@ -174,7 +176,14 @@ const Checkout = () => {
           promoCode: ITEMS[4].infoLine1,
           instructions: ITEMS[6].infoLine1,
           placedAt: fieldValue.serverTimestamp(),
+          // hardcoded item ids for now
+          items: {
+            UqLqjoZ82Fa8Ge8QmWeU: 1,
+            lKnceHKAui5xxu72ZLxF: 1,
+          },
         });
+
+        history.push("/confirmation-loading/" + res.id);
       }}
     >
       <StatefulMenu
