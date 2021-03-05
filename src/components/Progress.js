@@ -8,7 +8,6 @@ import { ShoppingCart, Truck } from "react-feather";
 import { StatefulMenu } from "baseui/menu";
 import { ListItemLabel, MenuAdapter, ARTWORK_SIZES } from "baseui/list";
 import { MessageSquare } from "react-feather";
-import { Drawer } from "baseui/drawer";
 import ChatDrawer from "./ChatDrawer";
 
 const ITEMS = Array.of(

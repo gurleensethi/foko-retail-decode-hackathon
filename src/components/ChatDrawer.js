@@ -8,7 +8,6 @@ import { PageLayout } from "../components/page-layout/PageLayout";
 import { Input } from "baseui/input";
 import { Button } from "baseui/button";
 import { useLocation } from "react-router-dom";
-import { Block } from "baseui/block";
 import { Avatar } from "baseui/avatar";
 import { Drawer, SIZE } from "baseui/drawer";
 import { ArrowLeft } from "baseui/icon";
@@ -68,8 +67,8 @@ const ChatDrawer = ({ isOpen = true, setIsOpen, orderId }) => {
   );
   const messagesRef = orderRef.collection("messages");
 
-  const { status, data: orderData } = useFirestoreDocData(orderRef);
-  const { status: messagesStatus, data: messages } = useFirestoreCollectionData(
+  const { data: orderData } = useFirestoreDocData(orderRef);
+  const { data: messages } = useFirestoreCollectionData(
     messagesRef.orderBy("createdAt"),
     {
       idField: "id",
@@ -79,8 +78,6 @@ const ChatDrawer = ({ isOpen = true, setIsOpen, orderId }) => {
   useEffect(() => {
     bottomRef?.current?.scrollIntoView();
   }, [messages]);
-
-  if (status === "loading") return "Loading";
 
   const sendMessage = (e) => {
     e.preventDefault();
