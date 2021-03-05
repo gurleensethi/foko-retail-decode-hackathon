@@ -26,6 +26,7 @@ import {
 } from "react-feather";
 import { PaymentCard } from "baseui/payment-card";
 import { useFirestore } from "reactfire";
+import { useHistory } from "react-router-dom";
 
 const ITEMS = Array.of(
   {
@@ -155,11 +156,14 @@ const Checkout = () => {
   const fieldValue = useFirestore.FieldValue;
   const ordersRef = useFirestore().collection("orders_test");
 
+  const history = useHistory();
+
   return (
     <PageLayout
       title="Checkout"
       bottomButtonLabel="Place Order"
       onBottomBtnClicked={() => {
+        history.push("/confirmation-loading");
         console.log({ ITEMS });
         ordersRef.add({
           cutomerName: ITEMS[0].infoLine1,
@@ -171,7 +175,6 @@ const Checkout = () => {
           instructions: ITEMS[6].infoLine1,
           placedAt: fieldValue.serverTimestamp(),
         });
-        alert("Your Order has been placed!");
       }}
     >
       <StatefulMenu
