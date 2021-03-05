@@ -30,6 +30,7 @@ function App() {
               <Route exact path="/">
                 <NavLink to="/customer">Customer</NavLink> |{" "}
                 <NavLink to="retailer">Retailer</NavLink>
+                <NavLink to="/progress">Progress</NavLink>
               </Route>
               <Route path="/customer">
                 <CustomerHome />
