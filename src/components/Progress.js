@@ -116,21 +116,23 @@ const Progress = () => {
               onClick={() => setIsChatOpen(true)}
             >
               <MessageSquare style={{ position: "absolute" }} />
-              {lastMessage && lastMessage[0].senderName === "Store" && (
-                <span
-                  style={{
-                    position: "relative",
-                    top: "-20px",
-                    right: "-20px",
-                    padding: "10px 10px",
-                    borderRadius: "50%",
-                    background: "red",
-                    color: "white",
-                  }}
-                >
-                  {" "}
-                </span>
-              )}
+              {lastMessage &&
+                lastMessage[0] &&
+                lastMessage[0].senderName === "Store" && (
+                  <span
+                    style={{
+                      position: "relative",
+                      top: "-20px",
+                      right: "-20px",
+                      padding: "10px 10px",
+                      borderRadius: "50%",
+                      background: "red",
+                      color: "white",
+                    }}
+                  >
+                    {" "}
+                  </span>
+                )}
             </Button>
           </div>
         );
