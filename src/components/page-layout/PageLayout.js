@@ -12,8 +12,10 @@ export const PageLayout = ({
   onBottomBtnClicked,
   bottomButtonLabel,
   bottom,
+  bottomEnhancement,
   backButtonVisible = true,
   bottomVisible = true,
+  isBottomButtonLoading = false,
 }) => {
   let history = useHistory();
   const [css] = useStyletron();
@@ -57,12 +59,16 @@ export const PageLayout = ({
           {typeof bottom === "function" ? (
             bottom()
           ) : (
-            <Button
-              onClick={onBottomBtnClicked}
-              className={css({ width: "100%" })}
-            >
-              {bottomButtonLabel || "No Label Provided"}
-            </Button>
+            <>
+              <Button
+                onClick={onBottomBtnClicked}
+                className={css({ width: "100%" })}
+                isLoading={isBottomButtonLoading}
+              >
+                {bottomButtonLabel || "No Label Provided"}
+              </Button>
+              {bottomEnhancement && bottomEnhancement()}
+            </>
           )}
         </div>
       )}

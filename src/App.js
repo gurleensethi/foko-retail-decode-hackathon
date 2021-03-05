@@ -22,6 +22,7 @@ import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
 import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
+import { ProcessOrder } from "./pages/retailer/ProcessOrder";
 
 const engine = new Styletron();
 
@@ -41,16 +42,22 @@ function App() {
                 <NavLink to="/retailer/upcoming-orders">
                   Retailer Upcoming Orders
                 </NavLink>{" "}
+                | <NavLink to="/order">OrderConfirmation</NavLink> | |{" "}
+                <NavLink to="/retailer/process-order/demo_order">
+                  Process Order
+                </NavLink>{" "}
                 |{" "}
-                <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
               </Route>
               <Route path="/customer">
                 <CustomerHome />
               </Route>
               <Route path="/retailer/upcoming-orders/:id">
                 <UpcomingOrdersDetail />
-                </Route> 
-              <Route exact path="/retailer/upcoming-orders">
+              </Route>
+              <Route path="/retailer/process-order/:orderId">
+                <ProcessOrder />
+              </Route>
+              <Route path="/retailer/upcoming-orders">
                 <UpcomingOrders />
               </Route>
               <Route path="/retailer">
@@ -68,9 +75,8 @@ function App() {
               <Route path="/component-showcase">
                 <ComponentShowcase />
               </Route>
-
               <Route path="/order">
-                <OrderConfirmation/>
+                <OrderConfirmation />
               </Route>
             </Switch>
           </Router>
