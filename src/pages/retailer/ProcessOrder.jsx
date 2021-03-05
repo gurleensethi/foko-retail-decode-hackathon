@@ -15,19 +15,20 @@ import { ItemsOrdered } from "../../components/ItemsOrdered";
 import { PageLayout } from "../../components/page-layout/PageLayout";
 import { Modal } from "baseui/modal";
 import { ScanQRPopup } from "../../components/ScanQRPopup";
+import ChatDrawer from "../../components/ChatDrawer";
 
 function getDataMappedToStatus(status) {
   switch (status) {
     case "pending":
-      return { bottomBtnLabel: "Confirm Order" };
+      return { bottomBtnLabel: "Confirm Order", label: "Pending" };
     case "confirmed":
-      return { bottomBtnLabel: "Preprare Order Now" };
+      return { bottomBtnLabel: "Preprare Order Now", label: "Confirmed" };
     case "unfulfilled":
-      return { bottomBtnLabel: "Ready for Pickup" };
+      return { bottomBtnLabel: "Ready for Pickup", label: "Unfullfilled" };
     case "ready_for_pickup":
-      return { bottomBtnLabel: "Scan Pick Up Code" };
+      return { bottomBtnLabel: "Scan Pick Up Code", label: "Read for Pickup" };
     case "fulfilled":
-      return { bottomBtnLabel: "Back to Orders" };
+      return { bottomBtnLabel: "Back to Orders", label: "Fulfilled" };
     default:
       return { bottomBtnLabel: "Back to Orders" };
   }
@@ -37,6 +38,7 @@ export const ProcessOrder = () => {
   const { orderId } = useParams();
   const [isLoading, setLoading] = useState(true);
   const [isStatusChangeLoading, setStatusChangeLoading] = useState(false);
+  const [isChatOpen, setChatOpen] = useState(false);
   const [order, setOrder] = useState({});
   const [areAllItemsChecked, setAllItemsChecked] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -100,7 +102,7 @@ export const ProcessOrder = () => {
     }
   };
 
-  const { bottomBtnLabel } = getDataMappedToStatus(order.status);
+  const { bottomBtnLabel, label } = getDataMappedToStatus(order.status);
 
   return (
     <PageLayout
@@ -136,10 +138,7 @@ export const ProcessOrder = () => {
                       />
                     </Block>
                     <CustomTag
-                      text={
-                        order.status[0].toUpperCase() +
-                        order.status.toLowerCase().substr(1)
-                      }
+                      text={label}
                       textColor="#654B86"
                       backgroundColor="#FBF9FF"
                     />
@@ -182,6 +181,7 @@ export const ProcessOrder = () => {
                           padding: "6px 10px",
                           color: "#222222",
                         })}
+                        onClick={() => setChatOpen(true)}
                       >
                         Message
                       </Block>
@@ -296,6 +296,12 @@ export const ProcessOrder = () => {
                 customerName={order.customerName}
               />
             </Modal>
+            <ChatDrawer
+              isOpen={isChatOpen}
+              isRetailer={true}
+              orderId={order.id}
+              setIsOpen={setChatOpen}
+            />
           </Block>
         )}
       </Block>
