@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   AspectRatioBox,
   AspectRatioBoxBody,
@@ -7,9 +7,72 @@ import { FlexGrid, FlexGridItem } from 'baseui/flex-grid';
 import { Label2, Label3, Label4, Paragraph4 } from 'baseui/typography'
 import { Block } from "baseui/block";
 import { PageLayout } from "../page-layout/PageLayout";
+import { useFirestore } from "reactfire";
+import { useStyletron } from "baseui";
+import {
+  CheckCircle,
+  User,
+  MapPin,
+  Calendar,
+  CreditCard,
+  Tag,
+  ShoppingCart,
+  Clipboard,
+} from "react-feather";
 
-const OrderConfirmation = (props) => {
-  const { order, deliveryInfo, paymentInfo } = props; 
+const OrderCompletion = (props) => {
+  const firestore = useFirestore();
+  
+  const [css] = useStyletron();
+  
+  const [isLoading, setLoading] = useState(true);
+  const [order, setOrder] = useState([]);
+  const [productInfos, setProductInfo] = useState([]);
+
+  const { orderId } = props; 
+
+  const docRef = firestore.collection("orders").doc(orderId || "demo_order");
+ 
+  useEffect(() => {
+    docRef.get().then((doc) => {
+      if (doc.data()) {
+          console.log("Document data:", doc.data());
+          setOrder(doc.data());
+          return doc.data()
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+      }
+    }).finally((result)=>{
+      console.log("hello")
+      const itemKeys = Object.keys(result);
+      console.log(itemKeys);
+      const itemsRef = firestore.collection("items");
+      let tmpProductInfo = new Array();
+      itemKeys.forEach((key) => {
+        console.log("key", key)
+        itemsRef.doc(key).get()
+        .then((doc) => {
+
+          let productData = doc.data();
+          if (productData) {
+            productData['count'] = order?.items[key];
+            console.log("ProductData:", productData);
+            tmpProductInfo.push(productData)
+          }
+        })
+      })
+      setProductInfo(tmpProductInfo);
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+    });}
+  , [firestore]);
+
+  const deliveryInfo = new Object();
+  const paymentInfo = new Object();
+
+
   const _tmpOrder = [
     { name: "Grape", 
       count: 1,
@@ -19,14 +82,22 @@ const OrderConfirmation = (props) => {
     { name: "Lemon",
       count: 1,
       price: 20,
-      img: ""
+      img: "" data={[]}
     } 
   ];
+
   return (
-    <PageLayout title="Order Confirmation" bottomButtonLabel="Place Order" onBottomBtnClicked={()=>console.log("clicked")}>
-      <BottomDividerBlock color="#181818">
-        <ProductTable order={order || _tmpOrder}/>
-      </BottomDividerBlock>
+    <PageLayout title="Order Completed" bottomButtonLabel="Place Order" onBottomBtnClicked={()=>console.log("clicked")}>
+      <div className={css({ flex: 1, textAlign: "center" })}>
+        <Label2 color="#4F4F4F"> Thank you for your order!</Label2>
+      </div>
+      <CheckedBlock>
+        <BottomDividerBlock>
+          <ProductTable order={productInfos || _tmpOrder}/>
+        </BottomDividerBlock>
+        <SummaryGrid data={[]}/>
+        <ItemsOrdered orderId={orderId}/>
+      </CheckedBlock>
       {/* Order Total Section */}
       <FlexGrid
         flexGridColumnCount={2}
@@ -50,15 +121,29 @@ const OrderConfirmation = (props) => {
   )
 };
 
+const SummaryGrid = (props) => {
+  const data = {props};
+
+  <FlexGrid
+    flexGridColumnCount={2}
+  >
+    {data.map((row) => (
+      <FlexGridItem>
+        <SummarySection subtitle={row[0]} line1={row[1]} line2={row[2]}/>
+      </FlexGridItem>
+    ))}
+  </FlexGrid>
+
+
+}
 const SummarySection = (props) => {
   const { subtitle, line1, line2 } = props;
   return (
-    <BottomDividerBlock color="#CBCBCB">
       <FlexGrid 
         flexDirection="column"
         padding="scale500">
         <FlexGridItem>
-          <Label2>{subtitle}</Label2>
+          <Label2 color="#828282">{subtitle}</Label2>
         </FlexGridItem>
         <FlexGridItem>
           {line1 || "1936 Dundas St West"}
@@ -67,18 +152,35 @@ const SummarySection = (props) => {
           {line2 || "M72 B3H"}
         </FlexGridItem>
       </FlexGrid>
-    </BottomDividerBlock>
   ) 
 }
+
 const BottomDividerBlock = (props) => {
   const { children } = props;
   return (
-    <Block $style={{borderBottom: `2px solid ${props?.color || "black"}`}}>
-      {children}
+    <Block $style={{borderBottom: `1px solid ${props?.color || "#e6e4ea"}`}}>
+        {children}
     </Block>
   )
 }
 
+const CheckedBlock = (props) => {
+  const {children} = props;
+  return (
+    <>
+      <Block $style={{border: "1px solid #E6E4EA", borderRadius: "10px", position: "relative", backgroundColor: "#FFFFFF", marginTop: "22px", padding: "20px"}}>
+        <div style={{position: "absolute", top: "-19px", right:"50%", background: "white", padding: "0 3px"}}>
+          <CheckCircle size={40} color="#49AD73"/>
+        </div>
+        <div style={{paddingTop: "30px"}}>
+        hellolkfjewlkjflewjflewjfl
+        {children}
+
+        </div>
+      </Block>
+    </>
+  )
+}
 const itemProps = {
   // backgroundColor: 'mono300',
   height: 'scale2000',
@@ -146,7 +248,7 @@ const ProductRow = (props) => {
 const SquaredImage = (props) => { 
   const { src } = props;
   return (
-    <AspectRatioBox width="scale1400">
+    <AspectRatioBox width="scale1400" style={{borderRadius: "5px", border: "1px solid #e6e4ea"}}>
       <AspectRatioBoxBody
         as="img"
         src={src}
