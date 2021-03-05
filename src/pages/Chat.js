@@ -10,6 +10,8 @@ import { Button } from "baseui/button";
 import { useLocation } from "react-router-dom";
 import { Block } from "baseui/block";
 import { Avatar } from "baseui/avatar";
+import { Drawer, SIZE } from "baseui/drawer";
+import { ArrowLeft } from "baseui/icon";
 
 const Message = ({ message, isMine = false }) => {
   const { text } = message;
@@ -54,7 +56,7 @@ const Message = ({ message, isMine = false }) => {
   );
 };
 
-const Chat = () => {
+const Chat = ({ isOpen = true, setIsOpen }) => {
   const [formValue, setFormValue] = useState();
 
   const bottomRef = useRef();
@@ -91,52 +93,74 @@ const Chat = () => {
   };
 
   return (
-    <PageLayout title="Chat with a representative" bottomVisible={false}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
+    <Drawer
+      autoFocus
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+      size={SIZE.full}
+      overrides={{
+        DrawerBody: {
+          style: ({ $theme }) => ({
+            margin: "0 !important",
+          }),
+        },
+      }}
+      closeable={false}
+    >
+      <PageLayout
+        title="Chat with a representative"
+        bottomVisible={false}
+        backButtonVisible={false}
+        backButtonEnhancement={() => (
+          <ArrowLeft onClick={() => setIsOpen(false)} size={32} />
+        )}
       >
-        <div style={{ flexGrow: 1, overflow: "auto" }}>
-          {messages &&
-            messages.map((msg) => (
-              <Message
-                key={msg.ID}
-                message={msg}
-                isMine={
-                  (isRetailer && msg.senderName == "Store") ||
-                  (!isRetailer && msg.senderName !== "Store")
-                }
-              />
-            ))}
-          <span ref={bottomRef} />
-        </div>
-        <form onSubmit={sendMessage} style={{ marginBottom: 8 }}>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <div style={{ flexGrow: 1 }}>
-              <Input
-                value={formValue}
-                onChange={(e) => setFormValue(e.target.value)}
-                placeholder="Enter message"
-                clearOnEscape
-                overrides={{
-                  Root: {
-                    style: ({ $theme }) => ({}),
-                  },
-                }}
-              />
-            </div>
-            <div>
-              <Button disabled={!formValue} type="submit">
-                Send
-              </Button>
-            </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
+        >
+          <div style={{ flexGrow: 1, overflow: "auto" }}>
+            {messages &&
+              messages.map((msg) => (
+                <Message
+                  key={msg.ID}
+                  message={msg}
+                  isMine={
+                    (isRetailer && msg.senderName == "Store") ||
+                    (!isRetailer && msg.senderName !== "Store")
+                  }
+                />
+              ))}
+            <span ref={bottomRef} />
           </div>
-        </form>
-      </div>
-    </PageLayout>
+          <form onSubmit={sendMessage} style={{ marginBottom: 8 }}>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div style={{ flexGrow: 1 }}>
+                <Input
+                  value={formValue}
+                  onChange={(e) => setFormValue(e.target.value)}
+                  placeholder="Enter message"
+                  clearOnEscape
+                  overrides={{
+                    Root: {
+                      style: ({ $theme }) => ({}),
+                    },
+                  }}
+                />
+              </div>
+              <div>
+                <Button disabled={!formValue} type="submit">
+                  Send
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </PageLayout>
+    </Drawer>
   );
 };
 
