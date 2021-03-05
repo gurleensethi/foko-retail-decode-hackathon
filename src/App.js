@@ -21,6 +21,7 @@ import { ComponentShowcase } from "./pages/ComponentShowcase";
 import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
+import MyCart from "./components/MyCart/myCart";
 import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
 import { ProcessOrder } from "./pages/retailer/ProcessOrder";
 
@@ -47,6 +48,9 @@ function App() {
                   Process Order
                 </NavLink>{" "}
                 |{" "}
+              </Route>
+              <Route path="/customer/mycart">
+                <MyCart />
               </Route>
               <Route path="/customer">
                 <CustomerHome />
