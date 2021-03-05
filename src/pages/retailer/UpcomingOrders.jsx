@@ -1,62 +1,32 @@
 import { PageLayout } from "../../components/page-layout/PageLayout";
 import { SearchBar } from "../../components/SearchBar";
 import { Tabs, Tab } from "baseui/tabs-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { OrderItem } from "../../components/OrderItem";
 import { Block } from "baseui/block";
 
-const orders = [
-  {
-    displayId: "Order #1339HD72",
-    name: "Casey He",
-    email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
-    isPaid: true,
-    status: "pending",
-    id:1
-  },
-  {
-    displayId: "Order #1339HD72",
-    name: "Casey He",
-    email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
-    isPaid: false,
-    status: "pending",
-    id:2
-  },
-  {
-    displayId: "Order #1339HD72",
-    name: "Casey He",
-    email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
-    isPaid: true,
-    status: "fulfilled",
-    id:3
-  },
-  {
-    displayId: "Order #1339HD72",
-    name: "Casey He",
-    email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
-    isPaid: true,
-    status: "unfulfilled",
-    id:4
-  },
-  {
-    displayId: "Order #1339HD72",
-    name: "Casey He",
-    email: "casey123@gmail.com",
-    date: "March 10, 2021 • 11:30 AM",
-    isPaid: true,
-    status: "fulfilled",
-    id:5
-  },
-];
+import { useFirestore } from "reactfire";
+import { Spinner } from "baseui/spinner";
+
 
 const statuses = ["", "pending", "unfulfilled", "fulfilled"];
 
 export const UpcomingOrders = () => {
   const [activeKey, setActiveKey] = useState(0);
+  const [isLoading, setLoading] = useState(true);
+  const [orders, setOrders] = useState([]);
+  const firestore = useFirestore();
+
+  useEffect(() => {
+    const ordersRef = firestore.collection("orders");
+
+    const disconnect = ordersRef.onSnapshot((snapshot) => {
+      setOrders(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+
+    return () => disconnect();
+  }, [firestore]);
 
   return (
     <PageLayout title="Upcoming Orders" bottomVisible={false}>
@@ -74,13 +44,21 @@ export const UpcomingOrders = () => {
         <Tab title="Unfulfilled" />
         <Tab title="Completed" />
       </Tabs>
-      {orders
-        .filter(
-          (item) => activeKey === 0 || item.status === statuses[activeKey]
-        )
-        .map((item) => (
-          <OrderItem order={item} />
-        ))}
+      {isLoading ? (
+        <Block margin="0 auto" display="flex" justifyContent="center">
+          <Spinner size="32px" color="black" />
+        </Block>
+      ) : (
+        <Block className="fade-in">
+          {orders
+            .filter(
+              (item) => activeKey === 0 || item.status === statuses[activeKey]
+            )
+            .map((item) => (
+              <OrderItem order={item} key={item.id} />
+            ))}
+        </Block>
+      )}
     </PageLayout>
   );
 };

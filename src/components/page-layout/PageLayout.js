@@ -37,8 +37,7 @@ export const PageLayout = ({
         {backButtonVisible && <ArrowLeft onClick={() => history.goBack()} size={32} />}
         <div className={css({ flex: 1, textAlign: "center" })}>
           <HeadingSmall
-            margin="0"
-            marginRight={backButtonVisible ? "32px" : "0px"}
+            margin={`0px ${backButtonVisible ? "32px" : "0px"} 0px 0px`}
           >
             {title || "No Title Provided"}
           </HeadingSmall>
