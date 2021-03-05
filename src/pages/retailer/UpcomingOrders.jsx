@@ -38,10 +38,10 @@ export const UpcomingOrders = () => {
           setActiveKey(Number(activeKey));
         }}
       >
-        <Tab title="All" />
+        <Tab title="All" aria-selected={false} selected={false}/>
         <Tab title="Pending" />
         <Tab title="Unfulfilled" />
-        <Tab title="Completed" />
+        <Tab title="Completed" aria-selected={true} selected={true}/>
       </Tabs>
       {isLoading ? (
         <Block margin="0 auto" display="flex" justifyContent="center">
