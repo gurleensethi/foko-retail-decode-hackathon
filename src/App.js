@@ -21,6 +21,7 @@ import { ComponentShowcase } from "./pages/ComponentShowcase";
 import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
+import MyCart from "./components/MyCart/myCart";
 
 const engine = new Styletron();
 
@@ -42,6 +43,9 @@ function App() {
                 </NavLink>{" "}
                 |{" "}
                 <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
+              </Route>
+              <Route path="/customer/mycart">
+                <MyCart />
               </Route>
               <Route path="/customer">
                 <CustomerHome />
