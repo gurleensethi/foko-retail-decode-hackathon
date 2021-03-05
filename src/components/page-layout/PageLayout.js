@@ -13,6 +13,7 @@ export const PageLayout = ({
   bottom,
   bottomEnhancement,
   backButtonVisible = true,
+  backButtonEnhancement,
   bottomVisible = true,
   isBottomButtonLoading = false,
   isBottomButtonDisabled = false,
@@ -39,6 +40,9 @@ export const PageLayout = ({
         {backButtonVisible && (
           <ArrowLeft onClick={() => history.goBack()} size={32} />
         )}
+        {backButtonEnhancement &&
+          typeof backButtonEnhancement == "function" &&
+          backButtonEnhancement()}
         <div className={css({ flex: 1, textAlign: "center" })}>
           <HeadingSmall
             margin={`0px ${backButtonVisible ? "32px" : "0px"} 0px 0px`}

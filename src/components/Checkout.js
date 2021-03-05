@@ -166,7 +166,7 @@ const Checkout = () => {
         history.push("/confirmation-loading");
         console.log({ ITEMS });
         ordersRef.add({
-          cutomerName: ITEMS[0].infoLine1,
+          customerName: ITEMS[0].infoLine1,
           customerId: ITEMS[0].infoLine2,
           storeAddress: ITEMS[1].infoLine1,
           storePostal: ITEMS[1].infoLine2,

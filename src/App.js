@@ -13,7 +13,7 @@ import {
 import CustomerHome from "./components/customerHome";
 import Progress from "./components/Progress";
 import Checkout from "./components/Checkout";
-import ConfirmationLoading  from "./components/ConfirmationLoading";
+import ConfirmationLoading from "./components/ConfirmationLoading";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { LightTheme, BaseProvider } from "baseui";
@@ -22,6 +22,7 @@ import { ComponentShowcase } from "./pages/ComponentShowcase";
 import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
+import ChatDrawer from "./components/ChatDrawer";
 import MyCart from "./components/MyCart/myCart";
 import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
 import { ProcessOrder } from "./pages/retailer/ProcessOrder";
@@ -40,12 +41,15 @@ function App() {
                 <NavLink to="/progress">Progress</NavLink> |{" "}
                 <NavLink to="/component-showcase">Component Showcase</NavLink> |{" "}
                 <NavLink to="/checkout">Checkout</NavLink> |{" "}
-                <NavLink to="/confirmation-loading">ConfirmationLoading</NavLink> |{" "}
-                <NavLink to="retailer">Retailer</NavLink> |{" "}
+                <NavLink to="/confirmation-loading">
+                  ConfirmationLoading
+                </NavLink>{" "}
+                | <NavLink to="retailer">Retailer</NavLink> |{" "}
                 <NavLink to="/retailer/upcoming-orders">
                   Retailer Upcoming Orders
                 </NavLink>{" "}
-                | <NavLink to="/order">OrderConfirmation</NavLink> | |{" "}
+                | <NavLink to="/order">OrderConfirmation</NavLink> |{" "}
+                <NavLink to="/chat">ChatDrawer</NavLink> |{" "}
                 <NavLink to="/retailer/process-order/demo_order">
                   Process Order
                 </NavLink>{" "}
@@ -86,6 +90,9 @@ function App() {
               </Route>
               <Route path="/order">
                 <OrderConfirmation />
+              </Route>
+              <Route path="/chat">
+                <ChatDrawer />
               </Route>
             </Switch>
           </Router>

@@ -1,79 +1,94 @@
 import React, { useState } from "react";
 import { Block } from "baseui/block";
 import { ProgressSteps, Step } from "baseui/progress-steps";
-import { Button } from "baseui/button";
+import { Button, SIZE, SHAPE } from "baseui/button";
 import { PageLayout } from "./page-layout/PageLayout";
-import ChevronRight from 'baseui/icon/chevron-right';
+import ChevronRight from "baseui/icon/chevron-right";
 import { ShoppingCart, Truck } from "react-feather";
-import {StatefulMenu} from 'baseui/menu';
-import {
-  ListItemLabel,
-  MenuAdapter,
-  ARTWORK_SIZES,
-} from 'baseui/list';
+import { StatefulMenu } from "baseui/menu";
+import { ListItemLabel, MenuAdapter, ARTWORK_SIZES } from "baseui/list";
+import { MessageSquare } from "react-feather";
+import ChatDrawer from "./ChatDrawer";
 
 const ITEMS = Array.of(
   {
-  title: 'My Order',
-  subtitle: 'Order Number: #16391A',
-  icon: ShoppingCart,
+    title: "My Order",
+    subtitle: "Order Number: #16391A",
+    icon: ShoppingCart,
   },
   {
-  title: 'Pickup Information',
-  subtitle: 'Honda Car, Blue',
-  icon: Truck,
+    title: "Pickup Information",
+    subtitle: "Honda Car, Blue",
+    icon: Truck,
   }
 );
 
 const Progress = () => {
   const [current, setCurrent] = useState(0);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   return (
     <PageLayout
       title="Order Status"
-      bottomButtonLabel="I'm here!"
       onBottomBtnClicked={() => setCurrent(0)}
-      bottom={
-        current !== 3 &&
-        (() => {
-          return <></>;
-        })
-      }
+      bottom={() => {
+        return (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+            }}
+          >
+            {current === 3 ? (
+              <Button style={{ flexGrow: 1, marginRight: 26 }}>
+                I'm Here!
+              </Button>
+            ) : (
+              <div style={{ flexGrow: 1 }}> </div>
+            )}
+            <Button
+              size={SIZE.large}
+              shape={SHAPE.circle}
+              onClick={() => setIsChatOpen(true)}
+            >
+              <MessageSquare />
+            </Button>
+          </div>
+        );
+      }}
     >
       <StatefulMenu
-      items={ITEMS}
-      onItemSelect={() => console.log('select')}
-      overrides={{
-        List: {
-          style: {
-            height: 'flex',
-            width: 'flex',
+        items={ITEMS}
+        onItemSelect={() => console.log("select")}
+        overrides={{
+          List: {
+            style: {
+              height: "flex",
+              width: "flex",
+            },
           },
-        },
-        Option: {
-          props: {
-            overrides: {
-              ListItem: {
-                component: React.forwardRef((props, ref) => (
-                  <MenuAdapter
-                    {...props}
-                    ref={ref}
-                    artwork={props.item.icon}
-                    artworkSize={ARTWORK_SIZES.MEDIUM}
-                    endEnhancer={() => <ChevronRight />}
-                  >
-                    <ListItemLabel
-                      description={props.item.subtitle}
+          Option: {
+            props: {
+              overrides: {
+                ListItem: {
+                  component: React.forwardRef((props, ref) => (
+                    <MenuAdapter
+                      {...props}
+                      ref={ref}
+                      artwork={props.item.icon}
+                      artworkSize={ARTWORK_SIZES.MEDIUM}
+                      endEnhancer={() => <ChevronRight />}
                     >
-                      {props.item.title}
-                    </ListItemLabel>
-                  </MenuAdapter>
-                )),
+                      <ListItemLabel description={props.item.subtitle}>
+                        {props.item.title}
+                      </ListItemLabel>
+                    </MenuAdapter>
+                  )),
+                },
               },
             },
           },
-        },
-      }}
-    />
+        }}
+      />
       <Block flexDirection="column">
         <ProgressSteps
           current={current}
@@ -117,6 +132,7 @@ const Progress = () => {
           </Button>
         </Block>
       </Block>
+      <ChatDrawer isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
     </PageLayout>
   );
 };
