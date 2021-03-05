@@ -1,26 +1,41 @@
 import { useStyletron } from "baseui";
-import { Paragraph1 } from "baseui/typography";
+import { PageLayout } from "../components/page-layout/PageLayout";
+import { useHistory } from "react-router-dom";
 
 export const ConfirmationLoading = () => {
   const [css] = useStyletron();
+  const history = useHistory();
 
   return (
+    <PageLayout
+      title=" "
+      backButtonVisible={false}
+      bottomButtonLabel="Track Order"
+      onBottomBtnClicked={() => {
+      history.push("/progress")
+      }}
+    >
     <div
       className={css({
-        width: "240px",
+        width: "250px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        margin: "auto",
       })}
     >
+      <h1 className={css({ textAlign: "center", fontWeight: "bold" })}>
+        Your order has been placed
+      </h1>
       <div
         className={css({
-          height: "100px",
+          height: "200px",
           width: "140px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          margin: "20px"
         })}
       >
         <div className="pulse"></div>
@@ -29,10 +44,14 @@ export const ConfirmationLoading = () => {
           alt="location icon"
           className={css({ width: "40px" })}
         />
+        
       </div>
-      <Paragraph1 className={css({ textAlign: "center", fontWeight: "bold" })}>
-        Your order is on its way...hang tight for a confirmation.
-      </Paragraph1>
+      <p className={css({ textAlign: "center"})}>
+        The store is currently reviewing your order. You’ll be notified once the order is confirmed. 
+        </p>
     </div>
+    </PageLayout>
   );
 };
+
+export default ConfirmationLoading;
