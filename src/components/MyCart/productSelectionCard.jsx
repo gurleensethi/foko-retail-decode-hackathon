@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
 import { Card } from 'baseui/card';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import { Button, KIND, SHAPE, SIZE } from 'baseui/button';
-import { Plus, CheckIndeterminate } from 'baseui/icon';
+import { Select, SIZE as SelectSIZE } from "baseui/select";
+import { Trash } from 'react-feather';
 
+const options = [
+    { label: 1, id: 1 },
+    { label: 2, id: 2 },
+    { label: 3, id: 3 },
+    { label: 4, id: 4 },
+    { label: 5, id: 5 }
+]
 
 const ProductSelectionCard = (props) => {
-    const [quantity, setQuantity] = useState(1);
+    const [value, setValue] = useState([options[0]]);
 
     const updateQuantity = (newQuantity) => {
-        if (newQuantity >= 1) {
-            setQuantity(newQuantity);
-            props.onQuantityChange(props.name, newQuantity);
-        }
+        setValue(newQuantity);
+        props.onQuantityChange(props.name, newQuantity[0]?.label || 0);
     };
 
     return (
         <Card overrides={{
             Root: {
                 style: {
-                    border: 0,
+                    borderWidth: 0,
                     paddingRight: 0
                 }
             }
@@ -36,28 +41,19 @@ const ProductSelectionCard = (props) => {
             
             <span style={{ fontWeight: 'bold' }}>{props.name}</span>
             
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-                paddingRight: 5,
-                paddingLeft: 5
-            }}>
-            <Button kind={KIND.secondary} size={SIZE.mini} shape={SHAPE.circle} onClick={() => updateQuantity(quantity - 1)}>
-                <CheckIndeterminate />
-            </Button>
+            <Select options={options}
+                value={value}
+                clearable={false}
+                size={SelectSIZE.compact}
+                placeholder={(<span style={{width:20}}></span>)}
+                onChange={params => updateQuantity(params.value)}
+                overrides={{Root:{style:{width:10}}}}
+            />
             
-            <span style={{ width: 20, textAlign: 'center' }}>{quantity}</span>
-            
-            <Button kind={KIND.secondary} size={SIZE.mini} shape={SHAPE.circle} onClick={() => updateQuantity(quantity + 1)}>
-                <Plus />
-            </Button>
-            </div>
-            
-           <span style={{ width: 30, textAlign: 'center' }}>${props.price * quantity}</span>
+           <span style={{ width: 30, textAlign: 'center' }}>${props.price * value[0]?.label || 0}</span>
            
-            <Button kind={KIND.secondary} size={SIZE.mini} shape={SHAPE.circle} style={{marginLeft: 10}}>
-                <DeleteOutlinedIcon fontSize={'small'} />
+            <Button kind={KIND.secondary} size={SIZE.mini} shape={SHAPE.pill} style={{marginLeft: 10}}>
+                <Trash size={15} />
             </Button>
             </div>
         </Card>
