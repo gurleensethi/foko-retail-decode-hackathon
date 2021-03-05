@@ -21,6 +21,7 @@ import { ComponentShowcase } from "./pages/ComponentShowcase";
 import OrderConfirmation from "./components/pages/OrderConfirmation";
 import { ReatilerHome } from "./pages/retailer/RetailerHome";
 import { UpcomingOrders } from "./pages/retailer/UpcomingOrders";
+import { UpcomingOrdersDetail } from "./pages/retailer/UpcomingOrdersDetail";
 
 const engine = new Styletron();
 
@@ -46,7 +47,10 @@ function App() {
               <Route path="/customer">
                 <CustomerHome />
               </Route>
-              <Route path="/retailer/upcoming-orders">
+              <Route path="/retailer/upcoming-orders/:id">
+                <UpcomingOrdersDetail />
+                </Route> 
+              <Route exact path="/retailer/upcoming-orders">
                 <UpcomingOrders />
               </Route>
               <Route path="/retailer">
@@ -64,6 +68,7 @@ function App() {
               <Route path="/component-showcase">
                 <ComponentShowcase />
               </Route>
+
               <Route path="/order">
                 <OrderConfirmation/>
               </Route>
